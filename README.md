@@ -80,6 +80,38 @@ src/
   utils/        Helper functions
 ```
 
+## Architecture
+
+### Application layers
+
+```mermaid
+flowchart TD
+    User((User)) --> Router[React Router]
+    Router --> Pages[Pages<br/>Login, Register, Home, Feed, Profile, Lists]
+    Pages --> Components[Components<br/>Header, TweetCard, Pagination, FollowButton]
+    Pages --> Context[AuthContext]
+    Pages --> Hooks[Hooks<br/>usePagination]
+    Context --> Services
+    Pages --> Services[Services<br/>authService, userService, tweetService, followService]
+    Services -->|VITE_USE_MOCKS=true| Mocks[(Mock data)]
+    Services -->|VITE_USE_MOCKS=false| Firebase[(Firebase<br/>Auth + Firestore)]
+```
+
+Pages and components never access data directly. They always go through the services layer, so switching from mock data (Milestone 1) to Firebase (Milestone 2) only changes the services, not the UI.
+
+### Development workflow
+
+```mermaid
+flowchart LR
+    A[Issue assigned] --> B[Branch feature/name<br/>from develop]
+    B --> C[Small commits]
+    C --> D[Pull request<br/>to develop]
+    D --> E{Review}
+    E -->|Changes requested| C
+    E -->|Approved| F[Merge into develop]
+    F --> G[Release<br/>develop to main + tag]
+```
+
 ## Data model
 
 ```
