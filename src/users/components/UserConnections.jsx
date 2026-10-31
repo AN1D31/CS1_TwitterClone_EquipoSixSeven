@@ -4,14 +4,14 @@ import { useAsyncData } from '../hooks/useAsyncData'
 import { usePagination } from '../../ui/hooks/usePagination'
 import { useAuth } from '../../auth/hooks/useAuth'
 import { getUserByUsername } from '../services/userService'
-import { getFollowers, getFollowing, getFollowingIds } from '../services/followService'
+import { getFollowersByUserId, getFollowingByUserId, getFollowingIdsByUserId } from '../services/followService'
 import { BackHeader } from './BackHeader'
 import { Pagination } from '../../ui/components/Pagination'
 import { Loader, StatusMessage } from './StatusMessage'
 import { UserListItem } from './UserListItem'
 import '../users.css'
 
-const listLoaders = { followers: getFollowers, following: getFollowing }
+const listLoaders = { followers: getFollowersByUserId, following: getFollowingByUserId }
 
 const emptyMessages = {
 	followers: 'Este usuario todavía no tiene seguidores.',
@@ -19,7 +19,7 @@ const emptyMessages = {
 }
 
 // Without a logged user there is nobody to follow from, so the followed list is empty.
-const loadViewerFollowingIds = (viewerId) => (viewerId ? getFollowingIds(viewerId) : Promise.resolve([]))
+const loadViewerFollowingIds = (viewerId) => (viewerId ? getFollowingIdsByUserId(viewerId) : Promise.resolve([]))
 
 const loadConnections = async (username, type, viewerId) => {
 	const profileUser = await getUserByUsername(username)

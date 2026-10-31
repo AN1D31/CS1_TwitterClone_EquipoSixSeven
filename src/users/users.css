@@ -297,3 +297,62 @@
 		gap: 14px;
 	}
 }
+
+/* Shared Pagination and TweetCard (owned by the team lead) have no styles yet,
+   so they are styled here only inside the users pages. */
+.users-feature .pagination {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 16px;
+}
+
+.users-feature .pagination__status {
+	color: var(--users-muted);
+	font-size: 14px;
+}
+
+.users-feature .pagination__button {
+	padding: 6px 16px;
+	border: 1px solid #536471;
+	border-radius: 999px;
+	background: transparent;
+	color: var(--users-text);
+	font: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.users-feature .pagination__button:hover:not(:disabled) {
+	background: rgba(231, 233, 234, 0.1);
+}
+
+.users-feature .pagination__button:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.users-feature .tweet-card {
+	padding: 12px 16px;
+	border-bottom: 1px solid var(--users-line);
+	color: var(--users-muted);
+}
+
+.users-feature .tweet-card__author {
+	color: var(--users-text);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.users-feature .tweet-card__author:hover {
+	text-decoration: underline;
+}
+
+.users-feature .tweet-card__body {
+	margin: 4px 0 0;
+	color: var(--users-text);
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
