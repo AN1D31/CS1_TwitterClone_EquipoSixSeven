@@ -184,3 +184,10 @@ Entries are never edited or deleted, only appended.
 - **Student message:** "dame la bitacora entera en orden para subirla"
 - **Summary:** Compiled every AI usage log entry of this conversation in chronological order, ready to append to bitacora.md.
 - **Files created or modified:** bitacora.md
+## 2026-10-30 23:03 (COT)
+- **Member:** Valentina Mejía (@ValenMejiaC)
+- **Tool / model:** Claude (claude.ai) – Claude Opus 5.5
+- **Conversation link:** [shared link]
+- **Student message:** "no aparece para seguirlos" (screenshots of the profiles of Óscar Giraldo and Ana María Torres without follow buttons)
+- **Summary:** Explained that no session was detected (the own profile did not show "Tu perfil"), so the follow button is hidden by design; steps to set the simulated session again in the browser console and what to expect after reloading.
+- **Files created or modified:** None (guidance only).
