@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useAsyncData } from '../hooks/useAsyncData'
 import { useAuth } from '../../auth/hooks/useAuth'
 import { getUserByUsername } from '../services/userService'
+import { normalizeUsername } from '../utils/normalizeUsername'
 import { getFollowCountsByUserId, isUserFollowing } from '../services/followService'
 import { getTweetsByUserId } from '../../tweets/services/tweetService'
 import { BackHeader } from '../components/BackHeader'
@@ -18,7 +19,7 @@ const checkViewerFollows = (viewerId, profileUserId) =>
 	viewerId ? isUserFollowing(viewerId, profileUserId) : Promise.resolve(false)
 
 const loadProfile = async (username, viewerId) => {
-	const profileUser = await getUserByUsername(username)
+	const profileUser = await getUserByUsername(normalizeUsername(username))
 	if (!profileUser) return { profileUser: null }
 
 	const [tweets, counts, isFollowed] = await Promise.all([
@@ -45,9 +46,10 @@ const UserProfile = ({ username }) => {
 		() => loadProfile(username, viewerId, reloadCount),
 		[username, viewerId, reloadCount],
 	)
-	const { result: profile, isLoading } = useAsyncData(loadUserProfile)
+	const { result: profile, isLoading, error } = useAsyncData(loadUserProfile)
 
 	if (isLoading) return <Loader />
+	if (error) return <StatusMessage type="error">No se pudo cargar el perfil: {error}</StatusMessage>
 	if (!profile?.profileUser) return <StatusMessage type="error">No existe el usuario @{username}.</StatusMessage>
 
 	const { profileUser, tweets, counts, isFollowed } = profile
