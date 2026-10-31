@@ -4,6 +4,10 @@ import { mockUsers } from '../data/mockUsers'
 // and every user saved here (registration, Google login) is visible to all services.
 const currentUsers = [...mockUsers]
 
+export const findAllUsers = async () => {
+	return [...currentUsers]
+}
+
 export const findUserById = async (userId) => {
 	return currentUsers.find((user) => user.id === userId) ?? null
 }

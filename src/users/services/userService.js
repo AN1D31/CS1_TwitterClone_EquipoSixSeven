@@ -12,6 +12,8 @@ export const sortUsersByFullNameAsc = (users) => {
 	)
 }
 
+export const getAllUsers = () => userDataSource.findAllUsers()
+
 export const getUserById = (userId) => userDataSource.findUserById(userId)
 
 export const getUserByUsername = (username) => userDataSource.findUserByUsername(username)

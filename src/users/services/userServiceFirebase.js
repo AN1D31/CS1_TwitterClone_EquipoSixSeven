@@ -14,6 +14,10 @@ const findFirstUserByField = async (fieldName, fieldValue) => {
 	return foundUser ?? null
 }
 
+// Used by the user search. Fine for a prototype with few users;
+// a real app would search on the server instead of reading the whole collection.
+export const findAllUsers = () => getDocumentsData(getUsersCollection())
+
 export const findUserById = async (userId) => {
 	const userSnapshot = await getDoc(doc(getUsersCollection(), userId))
 	return userSnapshot.exists() ? { id: userSnapshot.id, ...userSnapshot.data() } : null
