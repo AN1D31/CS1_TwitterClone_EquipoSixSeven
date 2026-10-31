@@ -12,10 +12,15 @@ export const useAsyncData = (loadFromService) => {
 		const updateIfActive = (nextState) => {
 			if (isActive) setState(nextState)
 		}
+		const handleLoadError = (loadError) => {
+			// Logged so the real cause (e.g. Firestore permissions) is visible in the browser console.
+			console.error('Error loading data:', loadError)
+			updateIfActive({ result: null, isLoading: false, error: loadError.message })
+		}
 
 		loadFromService()
 			.then((result) => updateIfActive({ result, isLoading: false, error: null }))
-			.catch((loadError) => updateIfActive({ result: null, isLoading: false, error: loadError.message }))
+			.catch(handleLoadError)
 
 		return () => {
 			isActive = false

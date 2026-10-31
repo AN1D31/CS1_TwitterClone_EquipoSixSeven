@@ -4,6 +4,7 @@ import { useAsyncData } from '../hooks/useAsyncData'
 import { usePagination } from '../../ui/hooks/usePagination'
 import { useAuth } from '../../auth/hooks/useAuth'
 import { getUserByUsername } from '../services/userService'
+import { normalizeUsername } from '../utils/normalizeUsername'
 import { getFollowersByUserId, getFollowingByUserId, getFollowingIdsByUserId } from '../services/followService'
 import { BackHeader } from './BackHeader'
 import { Pagination } from '../../ui/components/Pagination'
@@ -22,7 +23,7 @@ const emptyMessages = {
 const loadViewerFollowingIds = (viewerId) => (viewerId ? getFollowingIdsByUserId(viewerId) : Promise.resolve([]))
 
 const loadConnections = async (username, type, viewerId) => {
-	const profileUser = await getUserByUsername(username)
+	const profileUser = await getUserByUsername(normalizeUsername(username))
 	if (!profileUser) return { profileUser: null }
 
 	const [users, viewerFollowingIds] = await Promise.all([listLoaders[type](profileUser.id), loadViewerFollowingIds(viewerId)])
@@ -47,11 +48,12 @@ export const UserConnections = ({ username, type }) => {
 	const { currentUser } = useAuth()
 	const viewerId = currentUser?.id ?? null
 	const loadUserConnections = useCallback(() => loadConnections(username, type, viewerId), [username, type, viewerId])
-	const { result: connections, isLoading } = useAsyncData(loadUserConnections)
+	const { result: connections, isLoading, error } = useAsyncData(loadUserConnections)
 	const [newlyFollowedIds, setNewlyFollowedIds] = useState([])
 	const { page, totalPages, pageItems, totalItems, goToPage } = usePagination(connections?.users)
 
 	if (isLoading) return <Loader />
+	if (error) return <StatusMessage type="error">No se pudo cargar la lista: {error}</StatusMessage>
 	if (!connections?.profileUser) return <StatusMessage type="error">No existe el usuario @{username}.</StatusMessage>
 
 	const { profileUser, viewerFollowingIds } = connections
