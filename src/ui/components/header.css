@@ -36,6 +36,9 @@
 }
 
 .app-header__link {
+	display: flex;
+	align-items: center;
+	gap: 16px;
 	width: fit-content;
 	padding: 10px 16px;
 	border-radius: 999px;
@@ -50,6 +53,13 @@
 
 .app-header__link--active {
 	font-weight: 700;
+}
+
+.app-header__icon {
+	flex-shrink: 0;
+	width: 24px;
+	height: 24px;
+	fill: currentColor;
 }
 
 .app-header__tweet-button {
@@ -142,6 +152,7 @@
 	}
 
 	.app-header__link {
+		gap: 6px;
 		padding: 10px 12px;
 		border-radius: 0;
 		font-size: 15px;
@@ -151,5 +162,10 @@
 
 	.app-header__link--active {
 		border-bottom-color: var(--app-accent);
+	}
+
+	.app-header__icon {
+		width: 18px;
+		height: 18px;
 	}
 }
