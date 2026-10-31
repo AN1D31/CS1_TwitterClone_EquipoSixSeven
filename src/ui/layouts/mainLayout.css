@@ -1,0 +1,46 @@
+/* App shell for every page inside the session: navigation + main column. */
+
+.app-shell {
+	--app-bg: #000;
+	--app-line: #2f3336;
+	--app-text: #e7e9ea;
+	--app-muted: #71767b;
+	--app-accent: #1d9bf0;
+	--app-accent-hover: #1a8cd8;
+	--app-hover: rgba(231, 233, 234, 0.1);
+
+	/* Same palette for the shared user components (counters, avatars) used outside the users pages. */
+	--users-bg: var(--app-bg);
+	--users-line: var(--app-line);
+	--users-text: var(--app-text);
+	--users-muted: var(--app-muted);
+	--users-accent: var(--app-accent);
+
+	display: flex;
+	justify-content: center;
+	min-height: 100svh;
+	background: var(--app-bg);
+	color: var(--app-text);
+	text-align: left;
+	font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	line-height: 1.4;
+}
+
+.app-shell__content {
+	flex: 0 1 640px;
+	min-width: 0;
+	border-inline: 1px solid var(--app-line);
+}
+
+@media (max-width: 700px) {
+	.app-shell {
+		flex-direction: column;
+		justify-content: flex-start;
+	}
+
+	.app-shell__content {
+		flex: 1;
+		border-inline: none;
+	}
+}
