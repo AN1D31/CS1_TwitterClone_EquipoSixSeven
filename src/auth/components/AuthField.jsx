@@ -1,4 +1,3 @@
-// One labeled input of the login and register forms.
 export const AuthField = ({ id, label, name, type, autoComplete, value, onChange }) => {
 	return (
 		<div className="auth-field">
