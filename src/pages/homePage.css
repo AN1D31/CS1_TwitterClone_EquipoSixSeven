@@ -1,0 +1,61 @@
+.home-page__top-bar {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	padding: 12px 16px;
+	background: rgba(0, 0, 0, 0.65);
+	backdrop-filter: blur(12px);
+	border-bottom: 1px solid var(--app-line);
+}
+
+.home-page__title {
+	margin: 0;
+	color: var(--app-text);
+	font-size: 20px;
+	font-weight: 700;
+	letter-spacing: normal;
+}
+
+.home-page__profile {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 20px 16px 0;
+}
+
+.home-page__name {
+	font-size: 20px;
+	font-weight: 800;
+}
+
+.home-page__username {
+	color: var(--app-muted);
+}
+
+.home-page__compose {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-top: 20px;
+	padding: 16px;
+	border-block: 1px solid var(--app-line);
+}
+
+.home-page__compose-text {
+	color: var(--app-muted);
+	font-size: 20px;
+}
+
+.home-page__tweet-link {
+	padding: 8px 20px;
+	border-radius: 999px;
+	background: var(--app-accent);
+	color: #fff;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.home-page__tweet-link:hover {
+	background: var(--app-accent-hover);
+}

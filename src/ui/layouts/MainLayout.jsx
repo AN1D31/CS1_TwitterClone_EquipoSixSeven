@@ -1,9 +1,14 @@
 import { Outlet } from 'react-router-dom'
+import { Header } from '../components/Header'
+import './mainLayout.css'
 
 export const MainLayout = () => {
 	return (
-		<main className="main-layout">
-			<Outlet />
-		</main>
+		<div className="app-shell">
+			<Header />
+			<main className="app-shell__content">
+				<Outlet />
+			</main>
+		</div>
 	)
-}  
+}
