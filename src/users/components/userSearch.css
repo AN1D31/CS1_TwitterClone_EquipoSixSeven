@@ -1,0 +1,111 @@
+/* User search box (used in the home page). Colors come from the app shell variables. */
+
+.user-search {
+	position: relative;
+	padding: 12px 16px;
+}
+
+.user-search__box {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 0 16px;
+	border: 1px solid transparent;
+	border-radius: 999px;
+	background: #202327;
+	cursor: text;
+}
+
+.user-search__box:focus-within {
+	border-color: var(--users-accent, #1d9bf0);
+	background: var(--users-bg, #000);
+}
+
+.user-search__icon {
+	flex-shrink: 0;
+	width: 18px;
+	height: 18px;
+	fill: var(--users-muted, #71767b);
+}
+
+.user-search__box:focus-within .user-search__icon {
+	fill: var(--users-accent, #1d9bf0);
+}
+
+.user-search__input {
+	flex: 1;
+	min-width: 0;
+	padding: 12px 0;
+	border: none;
+	outline: none;
+	background: transparent;
+	color: var(--users-text, #e7e9ea);
+	font: inherit;
+}
+
+.user-search__input::placeholder {
+	color: var(--users-muted, #71767b);
+}
+
+.user-search__panel {
+	position: absolute;
+	top: calc(100% - 4px);
+	right: 16px;
+	left: 16px;
+	z-index: 20;
+	overflow: hidden;
+	border-radius: 16px;
+	background: var(--users-bg, #000);
+	box-shadow:
+		0 0 15px rgba(255, 255, 255, 0.2),
+		0 0 3px 1px rgba(255, 255, 255, 0.15);
+}
+
+.user-search__results {
+	margin: 0;
+	padding: 4px 0;
+	list-style: none;
+}
+
+.user-search__result {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 16px;
+	color: inherit;
+	text-decoration: none;
+}
+
+.user-search__result:hover,
+.user-search__result:focus-visible {
+	background: rgba(231, 233, 234, 0.06);
+	outline: none;
+}
+
+.user-search__names {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.user-search__names strong,
+.user-search__names span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.user-search__names span {
+	color: var(--users-muted, #71767b);
+}
+
+.user-search__message {
+	margin: 0;
+	padding: 20px 16px;
+	color: var(--users-muted, #71767b);
+	text-align: center;
+}
+
+.user-search__message--error {
+	color: #f4212e;
+}
