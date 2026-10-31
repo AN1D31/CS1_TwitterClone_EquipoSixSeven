@@ -1,3 +1,7 @@
+import { useParams } from 'react-router-dom'
+import { UserConnections } from '../components/UserConnections'
+
 export const FollowingPage = () => {
-	return <h1>Siguiendo</h1>
+	const { username } = useParams()
+	return <UserConnections key={`following-${username}`} username={username} type="following" />
 }
