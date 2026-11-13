@@ -6,7 +6,6 @@ import './header.css'
 // SVG paths (24x24) for the icon shown next to each navigation link.
 const navigationIconPaths = {
 	home: 'M12 3 2 11h3v10h6v-6h2v6h6V11h3L12 3Z',
-	feed: 'M4 5h16v2H4V5Zm0 6h16v2H4v-2Zm0 6h10v2H4v-2Z',
 	profile: 'M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5Z',
 	following:
 		'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-3.9 0-7 2-7 4.5V20h14v-2.5C16 15 12.9 13 9 13Zm7.3-3.7 1.4 1.4 3.6-3.6 1.4 1.4-5 5-2.8-2.8 1.4-1.4Z',
@@ -16,7 +15,6 @@ const navigationIconPaths = {
 
 const buildNavigationLinks = (username) => [
 	{ path: '/', label: 'Inicio', icon: 'home' },
-	{ path: '/tweets/feed', label: 'Feed', icon: 'feed' },
 	{ path: `/users/${username}`, label: 'Perfil', icon: 'profile' },
 	{ path: `/users/${username}/following`, label: 'Seguidos', icon: 'following' },
 	{ path: `/users/${username}/followers`, label: 'Seguidores', icon: 'followers' },

@@ -7,6 +7,7 @@ import { FollowCounts } from '../users/components/FollowCounts'
 import { UserAvatar } from '../users/components/UserAvatar'
 import { UserSearch } from '../users/components/UserSearch'
 import { FollowByUsernameForm } from '../users/components/FollowByUsernameForm'
+import { HomeFeed } from '../tweets/components/HomeFeed'
 import './homePage.css'
 
 // Shortcuts from the home page to the user's own profile, following and followers pages.
@@ -77,6 +78,7 @@ export const HomePage = () => {
 					Tweet
 				</Link>
 			</div>
+			<HomeFeed reloadKey={followCountsVersion} />
 		</section>
 	)
 }
