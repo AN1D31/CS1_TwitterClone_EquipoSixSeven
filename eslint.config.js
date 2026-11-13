@@ -17,5 +17,12 @@ export default defineConfig([
       globals: globals.browser,
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
+    // Course code rules: camelCase names, only let/const, max two nesting levels.
+    rules: {
+      camelcase: ['error', { properties: 'never' }],
+      'no-var': 'error',
+      'prefer-const': 'error',
+      'max-depth': ['error', 2],
+    },
   },
 ])
