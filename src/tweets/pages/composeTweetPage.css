@@ -1,0 +1,119 @@
+.compose-page__top-bar {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	padding: 12px 16px;
+	background: rgba(0, 0, 0, 0.65);
+	backdrop-filter: blur(12px);
+	border-bottom: 1px solid var(--app-line);
+}
+
+.compose-page__title {
+	margin: 0;
+	color: var(--app-text);
+	font-size: 20px;
+	font-weight: 700;
+	letter-spacing: normal;
+}
+
+.compose-form {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	padding: 16px;
+	border-bottom: 1px solid var(--app-line);
+}
+
+.compose-form__content {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 12px;
+	min-width: 0;
+}
+
+.compose-form__label {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.compose-form__textarea {
+	width: 100%;
+	min-height: 120px;
+	padding: 8px 0;
+	border: none;
+	background: transparent;
+	color: var(--app-text);
+	font: inherit;
+	font-size: 20px;
+	line-height: 1.4;
+	resize: vertical;
+	box-sizing: border-box;
+}
+
+.compose-form__textarea::placeholder {
+	color: var(--app-muted);
+}
+
+.compose-form__textarea:focus {
+	outline: none;
+}
+
+.compose-form__error {
+	margin: 0;
+	color: #f4212e;
+}
+
+.compose-form__footer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 16px;
+	padding-top: 12px;
+	border-top: 1px solid var(--app-line);
+}
+
+.compose-counter {
+	margin: 0;
+	color: var(--app-muted);
+	font-size: 14px;
+	font-variant-numeric: tabular-nums;
+}
+
+.compose-counter--warning {
+	color: #ffd400;
+}
+
+.compose-counter--over {
+	color: #f4212e;
+	font-weight: 700;
+}
+
+.compose-form__button {
+	padding: 9px 20px;
+	border: none;
+	border-radius: 999px;
+	background: var(--app-accent);
+	color: #fff;
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.compose-form__button:hover:not(:disabled) {
+	background: var(--app-accent-hover);
+}
+
+.compose-form__button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.compose-form__button:focus-visible {
+	outline: 2px solid var(--app-text);
+	outline-offset: 2px;
+}
