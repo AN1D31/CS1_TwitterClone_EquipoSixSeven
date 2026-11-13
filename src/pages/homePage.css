@@ -131,19 +131,3 @@
 		font-size: 17px;
 	}
 }
-
-
-/* Feed below the home page sections. */
-.home-feed {
-	min-height: 0;
-}
-
-.home-feed__title {
-	margin: 0;
-	padding: 16px 16px 12px;
-	border-bottom: 1px solid var(--app-line);
-	color: var(--app-text);
-	font-size: 20px;
-	font-weight: 800;
-	letter-spacing: normal;
-}
