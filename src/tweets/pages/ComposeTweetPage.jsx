@@ -39,7 +39,7 @@ export const ComposeTweetPage = () => {
 		try {
 			await createTweet(currentUser.id, tweetBody)
 			showToast('Tu tweet fue publicado.')
-			navigate(`/users/${currentUser.username}`)
+			navigate('/')
 		} catch (publishError) {
 			setErrorMessage(getPublishErrorMessage(publishError))
 			setIsPublishing(false)
