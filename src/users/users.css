@@ -1,0 +1,358 @@
+/* Styles for the users feature (followers, following and user tweets pages).
+   Every class is prefixed so it does not collide with global styles. */
+
+.users-feature {
+	--users-bg: #000;
+	--users-line: #2f3336;
+	--users-text: #e7e9ea;
+	--users-muted: #71767b;
+	--users-accent: #1d9bf0;
+	--users-hover: rgba(231, 233, 234, 0.06);
+
+	min-height: 100svh;
+	background: var(--users-bg);
+	color: var(--users-text);
+	text-align: left;
+	font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	line-height: 1.4;
+}
+
+/* Back header */
+.back-header {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	padding: 6px 16px;
+	background: rgba(0, 0, 0, 0.65);
+	backdrop-filter: blur(12px);
+	border-bottom: 1px solid var(--users-line);
+}
+
+.back-header__back {
+	width: 36px;
+	height: 36px;
+	border: none;
+	border-radius: 50%;
+	background: transparent;
+	color: var(--users-text);
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.back-header__back:hover {
+	background: rgba(231, 233, 234, 0.1);
+}
+
+.back-header__title {
+	margin: 0;
+	font-size: 20px;
+	font-weight: 700;
+	letter-spacing: normal;
+	color: var(--users-text);
+}
+
+.back-header__subtitle {
+	margin: 0;
+	font-size: 13px;
+	color: var(--users-muted);
+}
+
+/* Avatar */
+.user-avatar {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	color: #fff;
+	font-weight: 700;
+	object-fit: cover;
+}
+
+/* Tabs (followers / following) */
+.user-tabs {
+	display: flex;
+	border-bottom: 1px solid var(--users-line);
+}
+
+.user-tabs__item {
+	flex: 1;
+	padding: 16px 0 12px;
+	text-align: center;
+	color: var(--users-muted);
+	font-weight: 600;
+	text-decoration: none;
+	border-bottom: 4px solid transparent;
+}
+
+.user-tabs__item:hover {
+	background: var(--users-hover);
+}
+
+.user-tabs__item--active {
+	color: var(--users-text);
+	font-weight: 700;
+	border-bottom-color: var(--users-accent);
+}
+
+/* User list */
+.user-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.user-item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 16px;
+	border-bottom: 1px solid var(--users-line);
+}
+
+.user-item:hover {
+	background: var(--users-hover);
+}
+
+.user-item__profile {
+	display: flex;
+	flex: 1;
+	min-width: 0;
+	align-items: center;
+	gap: 12px;
+	color: inherit;
+	text-decoration: none;
+}
+
+.user-item__names {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.user-item__names strong,
+.user-item__names span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.user-item__names span {
+	color: var(--users-muted);
+}
+
+.user-badge {
+	padding: 6px 14px;
+	border: 1px solid #536471;
+	border-radius: 999px;
+	font-size: 14px;
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+/* Follow button */
+.follow-button {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 4px;
+}
+
+.follow-button__button {
+	padding: 6px 18px;
+	border: none;
+	border-radius: 999px;
+	background: var(--users-text);
+	color: #0f1419;
+	font: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.follow-button__button:hover:not(:disabled) {
+	background: #d7dbdc;
+}
+
+.follow-button__button:disabled {
+	opacity: 0.6;
+	cursor: wait;
+}
+
+.follow-button__error {
+	color: #f4212e;
+	font-size: 12px;
+}
+
+/* Profile */
+.profile {
+	padding-bottom: 16px;
+	border-bottom: 1px solid var(--users-line);
+}
+
+.profile__banner {
+	height: 160px;
+	background: linear-gradient(135deg, #1d9bf0 0%, #7856ff 100%);
+}
+
+.profile__top {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	margin-top: -48px;
+	padding: 0 16px;
+}
+
+.profile__top .user-avatar {
+	border: 4px solid var(--users-bg);
+}
+
+.profile__name {
+	margin: 12px 16px 0;
+	font-size: 20px;
+	font-weight: 800;
+	letter-spacing: normal;
+	color: var(--users-text);
+}
+
+.profile__username {
+	margin: 0 16px;
+	color: var(--users-muted);
+}
+
+.profile__section-title {
+	margin: 0;
+	padding: 14px 16px;
+	font-size: 15px;
+	border-bottom: 1px solid var(--users-line);
+}
+
+/* Counters */
+.follow-counts {
+	display: flex;
+	gap: 20px;
+	margin: 12px 16px 0;
+}
+
+.follow-counts__item {
+	color: var(--users-muted);
+	text-decoration: none;
+}
+
+.follow-counts__item strong {
+	color: var(--users-text);
+}
+
+.follow-counts__item:hover {
+	text-decoration: underline;
+}
+
+/* Status and loader */
+.user-status {
+	margin: 0;
+	padding: 32px 16px;
+	text-align: center;
+	color: var(--users-muted, #71767b);
+}
+
+.user-status--error {
+	color: #f4212e;
+}
+
+.user-status--success {
+	color: #00ba7c;
+}
+
+.user-loader {
+	display: flex;
+	justify-content: center;
+	padding: 32px;
+}
+
+.user-loader__spinner {
+	width: 28px;
+	height: 28px;
+	border: 3px solid rgba(29, 155, 240, 0.25);
+	border-top-color: #1d9bf0;
+	border-radius: 50%;
+	animation: user-spin 0.8s linear infinite;
+}
+
+@keyframes user-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@media (max-width: 500px) {
+	.profile__banner {
+		height: 110px;
+	}
+
+	.follow-counts {
+		gap: 14px;
+	}
+}
+
+/* Shared Pagination and TweetCard (owned by the team lead) have no styles yet,
+   so they are styled here only inside the users pages. */
+.users-feature .pagination {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 16px;
+}
+
+.users-feature .pagination__status {
+	color: var(--users-muted);
+	font-size: 14px;
+}
+
+.users-feature .pagination__button {
+	padding: 6px 16px;
+	border: 1px solid #536471;
+	border-radius: 999px;
+	background: transparent;
+	color: var(--users-text);
+	font: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.users-feature .pagination__button:hover:not(:disabled) {
+	background: rgba(231, 233, 234, 0.1);
+}
+
+.users-feature .pagination__button:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.users-feature .tweet-card {
+	padding: 12px 16px;
+	border-bottom: 1px solid var(--users-line);
+	color: var(--users-muted);
+}
+
+.users-feature .tweet-card__author {
+	color: var(--users-text);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.users-feature .tweet-card__author:hover {
+	text-decoration: underline;
+}
+
+.users-feature .tweet-card__body {
+	margin: 4px 0 0;
+	color: var(--users-text);
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
