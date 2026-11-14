@@ -13,7 +13,7 @@ const publishErrorMessages = {
 	'tweet/empty-body': 'Escribe algo antes de publicar.',
 	'tweet/body-too-long': `El tweet no puede superar los ${MAX_TWEET_LENGTH} caracteres.`,
 	'media/unsupported-type': 'Solo puedes adjuntar imágenes o videos.',
-	'media/file-too-large': `El archivo es muy pesado. Máximo ${MAX_IMAGE_SIZE_MB} MB en imágenes y ${MAX_VIDEO_SIZE_MB} MB en videos.`,
+	'media/too-large': `El archivo es muy pesado. Máximo ${MAX_IMAGE_SIZE_MB} MB en imágenes y ${MAX_VIDEO_SIZE_MB} MB en videos.`,
 	'media/upload-failed': 'No se pudo subir el archivo. Intenta de nuevo.',
 	'media/not-configured': 'La subida de archivos no está configurada todavía.',
 }
