@@ -1,4 +1,4 @@
-import { collection, doc, query, setDoc, where } from 'firebase/firestore'
+import { collection, deleteDoc, doc, query, setDoc, where } from 'firebase/firestore'
 import { getFirebaseDb } from '../../firebase/config'
 import { getDocumentsData } from '../../firebase/firestoreHelpers'
 
@@ -24,4 +24,9 @@ export const saveFollow = async (follow) => {
 	const followDocumentId = `${follow.followerId}_${follow.followingId}`
 	await setDoc(doc(getFollowsCollection(), followDocumentId), follow)
 	return follow
+}
+
+export const deleteFollow = async (followerId, followingId) => {
+	const followDocumentId = `${followerId}_${followingId}`
+	await deleteDoc(doc(getFollowsCollection(), followDocumentId))
 }

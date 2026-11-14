@@ -12,6 +12,8 @@ const navigationIconPaths = {
 		'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-3.9 0-7 2-7 4.5V20h14v-2.5C16 15 12.9 13 9 13Zm7.3-3.7 1.4 1.4 3.6-3.6 1.4 1.4-5 5-2.8-2.8 1.4-1.4Z',
 	followers:
 		'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM9 13c-3.9 0-7 2-7 4.5V20h14v-2.5C16 15 12.9 13 9 13Zm7.6.1c1.5.9 2.4 2.2 2.4 3.9V20h3v-2c0-2.4-2.4-4.3-5.4-4.9Z',
+	discover:
+		'M10.5 3a7.5 7.5 0 0 1 5.92 12.1l4.24 4.24-1.42 1.42-4.24-4.24A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z',
 }
 
 const buildNavigationLinks = (username) => [
@@ -20,6 +22,7 @@ const buildNavigationLinks = (username) => [
 	{ path: `/users/${username}`, label: 'Perfil', icon: 'profile' },
 	{ path: `/users/${username}/following`, label: 'Seguidos', icon: 'following' },
 	{ path: `/users/${username}/followers`, label: 'Seguidores', icon: 'followers' },
+	{ path: '/discover', label: 'Descubrir', icon: 'discover' },
 ]
 
 const NavigationIcon = ({ name }) => (
