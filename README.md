@@ -61,13 +61,23 @@ The app runs at `http://localhost:5173`.
 
 > After every `git pull`, run `npm install` again if `package.json` changed.
 
-### Demo account (mock mode)
+### Demo account
 
 | Username | Password |
 |---|---|
 | `anatorres` | `Clave1234` |
 
-Every mock user shares the same password. Users registered while the app runs are kept in memory and disappear on reload.
+The demo account has 12 tweets, follows 12 users and has 11 followers. All 15 demo users share the same password. The same account works in mock mode (`VITE_USE_MOCKS=true`), where users registered while the app runs are kept in memory and disappear on reload.
+
+### Demo data in Firebase
+
+To load the 15 demo users, their tweets and their follows into your Firebase project, fill in the `VITE_FIREBASE_*` variables in `.env` and run:
+
+```bash
+npm run seed
+```
+
+The script creates the Firebase Auth accounts and the Firestore documents. It can be run several times: what already exists is skipped.
 
 ### Available scripts
 

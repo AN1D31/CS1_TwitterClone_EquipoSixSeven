@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "format": "prettier --write src",
     "format:check": "prettier --check src",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "seed": "node --env-file=.env scripts/seedFirebase.js"
   },
   "dependencies": {
     "firebase": "^13.1.0",
@@ -27,6 +28,8 @@
     "eslint-plugin-react-refresh": "^0.5.6",
     "globals": "^17.12.0",
     "prettier": "^3.10.1",
-    "vite": "^8.3.0"
+    "vite": "^8.3.0",
+    "preview": "vite preview",
+    "seed": "node --env-file=.env scripts/seedFirebase.js"
   }
 }
