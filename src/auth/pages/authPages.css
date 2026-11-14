@@ -35,12 +35,9 @@
 	background: var(--auth-card);
 }
 
-.auth-form::before {
-	content: '67';
+.auth-form .app-logo {
 	align-self: center;
 	color: var(--auth-text);
-	font-size: 32px;
-	font-weight: 800;
 }
 
 .auth-form h1 {

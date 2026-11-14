@@ -4,6 +4,7 @@ import { registerUser } from '../services/authService'
 import { AuthField } from '../components/AuthField'
 import { MAX_IMAGE_SIZE_MB } from '../../cloudinary/mediaUploadService'
 import { AvatarPicker } from '../components/AvatarPicker'
+import { AppLogo } from '../../ui/components/AppLogo'
 import './authPages.css'
 
 const MIN_PASSWORD_LENGTH = 6
@@ -77,6 +78,7 @@ export const RegisterPage = () => {
 	return (
 		<main className="auth-page">
 			<form className="auth-form" onSubmit={handleSubmit}>
+				<AppLogo size={40} />
 				<h1>Crear cuenta</h1>
 
 				<AvatarPicker

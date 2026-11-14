@@ -6,6 +6,7 @@ import {
 } from '../services/authService'
 import { useAuth } from '../hooks/useAuth'
 import { AuthField } from '../components/AuthField'
+import { AppLogo } from '../../ui/components/AppLogo'
 import './authPages.css'
 
 const initialLoginForm = {
@@ -64,6 +65,7 @@ export const LoginPage = () => {
 	return (
 		<main className="auth-page">
 			<form className="auth-form" onSubmit={handleSubmit}>
+				<AppLogo size={40} />
 				<h1>Iniciar sesión</h1>
 
 				<AuthField
