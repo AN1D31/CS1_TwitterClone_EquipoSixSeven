@@ -1,17 +1,18 @@
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../auth/hooks/useAuth'
+import { useDataVersion } from '../ui/hooks/useDataVersion'
 import { getFollowCountsByUserId } from '../users/services/followService'
 import { useAsyncData } from '../users/hooks/useAsyncData'
 import { FollowCounts } from '../users/components/FollowCounts'
 import { UserAvatar } from '../users/components/UserAvatar'
 import { UserSearch } from '../users/components/UserSearch'
-import { FollowByUsernameForm } from '../users/components/FollowByUsernameForm'
 import { ExploreTweets } from '../tweets/components/ExploreTweets'
 import '../tweets/components/exploreTweets.css'
 import './homePage.css'
 
-// Shortcuts from the home page to the user's own profile, following and followers pages.
+const WATCHED_KINDS = ['follows']
+
 const buildShortcuts = (username, followCounts) => [
 	{ path: `/users/${username}`, title: 'Mi perfil', detail: 'Tus tweets' },
 	{
@@ -28,17 +29,14 @@ const buildShortcuts = (username, followCounts) => [
 
 export const HomePage = () => {
 	const { currentUser } = useAuth()
-	const [followCountsVersion, setFollowCountsVersion] = useState(0)
-	// followCountsVersion changes after following someone, so the counters load again.
+	const followsVersion = useDataVersion(WATCHED_KINDS)
 	const loadFollowCounts = useCallback(
-		() => getFollowCountsByUserId(currentUser.id, followCountsVersion),
-		[currentUser.id, followCountsVersion],
+		() => getFollowCountsByUserId(currentUser.id, followsVersion),
+		[currentUser.id, followsVersion],
 	)
 	const { result: followCounts } = useAsyncData(loadFollowCounts)
 	const profilePath = `/users/${currentUser.username}`
 	const shortcuts = buildShortcuts(currentUser.username, followCounts)
-	const reloadFollowCounts = () =>
-		setFollowCountsVersion((previousVersion) => previousVersion + 1)
 
 	return (
 		<section className="home-page">
@@ -64,7 +62,6 @@ export const HomePage = () => {
 				</Link>
 			</div>
 			<FollowCounts username={currentUser.username} counts={followCounts} />
-			<FollowByUsernameForm onFollowed={reloadFollowCounts} />
 			<nav className="home-page__shortcuts" aria-label="Accesos rápidos">
 				{shortcuts.map((shortcut) => (
 					<Link key={shortcut.path} to={shortcut.path} className="home-page__shortcut">

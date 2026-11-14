@@ -1,4 +1,5 @@
 import { USE_MOCKS } from '../../firebase/dataSourceMode'
+import { notifyDataChanged } from '../../ui/events/dataChangeEvents'
 import { getUsersByIds } from '../../users/services/userService'
 import * as commentServiceFirebase from './commentServiceFirebase'
 import * as commentServiceMock from './commentServiceMock'
@@ -41,10 +42,12 @@ export const addComment = async (tweetId, authorId, body) => {
 	if (trimmedBody.length > MAX_COMMENT_LENGTH) {
 		throw new Error('comment/body-too-long')
 	}
-	return commentDataSource.saveComment({
+	const savedComment = await commentDataSource.saveComment({
 		tweetId,
 		authorId,
 		body: trimmedBody,
 		createdAt: new Date().toISOString(),
 	})
+	notifyDataChanged('comments')
+	return savedComment
 }

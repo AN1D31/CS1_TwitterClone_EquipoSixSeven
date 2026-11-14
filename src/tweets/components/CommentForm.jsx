@@ -16,7 +16,7 @@ const getPublishErrorMessage = (publishError) => {
 	)
 }
 
-export const CommentForm = ({ tweetId, onCommentAdded }) => {
+export const CommentForm = ({ tweetId }) => {
 	const { currentUser } = useAuth()
 	const { showToast } = useToast()
 	const [commentBody, setCommentBody] = useState('')
@@ -31,7 +31,6 @@ export const CommentForm = ({ tweetId, onCommentAdded }) => {
 		try {
 			await addComment(tweetId, currentUser.id, commentBody)
 			setCommentBody('')
-			onCommentAdded()
 		} catch (publishError) {
 			console.error('Error adding comment:', publishError)
 			showToast(getPublishErrorMessage(publishError), 'error')

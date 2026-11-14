@@ -1,4 +1,5 @@
 import { USE_MOCKS } from '../../firebase/dataSourceMode'
+import { notifyDataChanged } from '../../ui/events/dataChangeEvents'
 import * as followServiceFirebase from './followServiceFirebase'
 import * as followServiceMock from './followServiceMock'
 import { getAllUsers, getUsersByIds, sortUsersByFullNameAsc } from './userService'
@@ -55,6 +56,7 @@ export const followUser = async (followerId, followingId) => {
 		followingId,
 		createdAt: new Date().toISOString(),
 	})
+	notifyDataChanged('follows')
 }
 
 export const unfollowUser = async (followerId, followingId) => {
@@ -63,6 +65,7 @@ export const unfollowUser = async (followerId, followingId) => {
 		throw new Error('follow/not-following')
 	}
 	await followDataSource.deleteFollow(followerId, followingId)
+	notifyDataChanged('follows')
 }
 
 export const getUsersToDiscoverByUserId = async (userId) => {

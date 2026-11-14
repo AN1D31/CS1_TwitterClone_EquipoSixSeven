@@ -1,19 +1,24 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../auth/hooks/useAuth'
 import { useAsyncData } from '../../users/hooks/useAsyncData'
 import { BackHeader } from '../../users/components/BackHeader'
 import { Loader, StatusMessage } from '../../users/components/StatusMessage'
+import { getFollowingIdsByUserId } from '../../users/services/followService'
+import { useDataVersion } from '../../ui/hooks/useDataVersion'
 import { usePagination } from '../../ui/hooks/usePagination'
 import { Pagination } from '../../ui/components/Pagination'
+import { NewTweetsBanner } from '../components/NewTweetsBanner'
 import { TweetCard } from '../components/TweetCard'
+import { useNewTweetsCount } from '../hooks/useNewTweetsCount'
 import { getFeedTweetsByUserId } from '../services/tweetService'
 import '../../users/users.css'
 import './feedPage.css'
 
+const WATCHED_KINDS = ['tweets', 'reposts', 'follows']
+
 const EMPTY_FEED_MESSAGE = 'Aún no hay tweets. Sigue a alguien o publica tu primer tweet.'
 
-// Feed tweets, newest first (the service already sorts them), 10 per page.
 const FeedTweetList = ({ tweets }) => {
 	const { page, totalPages, pageItems, goToPage } = usePagination(tweets)
 
@@ -29,20 +34,35 @@ const FeedTweetList = ({ tweets }) => {
 	)
 }
 
-const FeedContent = ({ tweets, isLoading, error }) => {
+const FeedContent = ({ userId }) => {
+	const dataVersion = useDataVersion(WATCHED_KINDS)
+	const loadFeedTweets = useCallback(
+		() => getFeedTweetsByUserId(userId, dataVersion),
+		[userId, dataVersion],
+	)
+	const { result: tweets, isLoading, error } = useAsyncData(loadFeedTweets)
+
 	if (isLoading) return <Loader />
 	if (error) return <StatusMessage type="error">No se pudo cargar el feed: {error}</StatusMessage>
 	return <FeedTweetList tweets={tweets} />
 }
 
-// Tweets of the logged user and of the users they follow.
 export const FeedPage = () => {
 	const { currentUser } = useAuth()
-	const loadFeedTweets = useCallback(
-		() => getFeedTweetsByUserId(currentUser.id),
+	const [reloadCount, setReloadCount] = useState(0)
+	const loadFollowingIds = useCallback(
+		() => getFollowingIdsByUserId(currentUser.id),
 		[currentUser.id],
 	)
-	const { result: tweets, isLoading, error } = useAsyncData(loadFeedTweets)
+	const { result: followingIds } = useAsyncData(loadFollowingIds)
+	const followedIds = useMemo(() => new Set(followingIds ?? []), [followingIds])
+	const shouldCountTweet = useCallback((tweet) => followedIds.has(tweet.authorId), [followedIds])
+	const { newTweetCount, markNewTweetsAsSeen } = useNewTweetsCount(shouldCountTweet)
+
+	const handleShowNewTweets = () => {
+		markNewTweetsAsSeen()
+		setReloadCount((previousCount) => previousCount + 1)
+	}
 
 	return (
 		<div className="users-feature">
@@ -53,7 +73,8 @@ export const FeedPage = () => {
 					Publicar tweet
 				</Link>
 			</div>
-			<FeedContent tweets={tweets} isLoading={isLoading} error={error} />
+			<NewTweetsBanner count={newTweetCount} onShow={handleShowNewTweets} />
+			<FeedContent key={reloadCount} userId={currentUser.id} />
 		</div>
 	)
 }

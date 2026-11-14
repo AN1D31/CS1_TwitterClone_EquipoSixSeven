@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../auth/hooks/useAuth'
+import { useDataVersion } from '../../ui/hooks/useDataVersion'
 import { useToast } from '../../ui/hooks/useToast'
 import { getLikeSummary, likeTweet, unlikeTweet } from '../services/likeService'
 import './tweetActions.css'
+
+const WATCHED_KINDS = ['likes']
 
 const emptySummary = { likeCount: 0, isLikedByViewer: false }
 
@@ -14,13 +17,13 @@ const buildNextSummary = ({ likeCount, isLikedByViewer }) => {
 	}
 }
 
-// Heart button of a tweet. The counter opens the list of users who liked it.
 export const LikeButton = ({ tweetId }) => {
 	const { currentUser } = useAuth()
 	const { showToast } = useToast()
 	const viewerId = currentUser?.id ?? null
 	const [summary, setSummary] = useState(emptySummary)
 	const [isSaving, setIsSaving] = useState(false)
+	const likesVersion = useDataVersion(WATCHED_KINDS)
 
 	useEffect(() => {
 		let isActive = true
@@ -35,7 +38,7 @@ export const LikeButton = ({ tweetId }) => {
 		return () => {
 			isActive = false
 		}
-	}, [tweetId, viewerId])
+	}, [tweetId, viewerId, likesVersion])
 
 	const handleToggleLike = async () => {
 		setIsSaving(true)

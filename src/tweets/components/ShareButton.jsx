@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useAuth } from '../../auth/hooks/useAuth'
+import { useDataVersion } from '../../ui/hooks/useDataVersion'
 import { useToast } from '../../ui/hooks/useToast'
 import { getRepostSummary, repostTweet, undoRepost } from '../services/repostService'
 import { buildTweetUrl } from '../utils/buildTweetUrl'
 import './tweetActions.css'
+
+const WATCHED_KINDS = ['reposts']
 
 const emptySummary = { repostCount: 0, isRepostedByViewer: false }
 
@@ -43,6 +46,7 @@ export const ShareButton = ({ tweetId }) => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 	const [isSaving, setIsSaving] = useState(false)
 	const closeMenu = useCallback(() => setIsMenuOpen(false), [])
+	const repostsVersion = useDataVersion(WATCHED_KINDS)
 
 	useCloseMenuOnOutsideAction(isMenuOpen, menuRef, closeMenu)
 
@@ -59,7 +63,7 @@ export const ShareButton = ({ tweetId }) => {
 		return () => {
 			isActive = false
 		}
-	}, [tweetId, viewerId])
+	}, [tweetId, viewerId, repostsVersion])
 
 	const handleCopyLink = async () => {
 		closeMenu()

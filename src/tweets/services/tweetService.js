@@ -1,5 +1,6 @@
 import { getMediaType, uploadMediaToCloudinary } from '../../cloudinary/mediaUploadService'
 import { USE_MOCKS } from '../../firebase/dataSourceMode'
+import { notifyDataChanged } from '../../ui/events/dataChangeEvents'
 import { getFollowingIdsByUserId } from '../../users/services/followService'
 import { getUsersByIds } from '../../users/services/userService'
 import { getRepostsByUserIds } from './repostService'
@@ -122,6 +123,22 @@ export const getExploreTweetsByUserId = async (userId) => {
 	return addAuthorToTweets(sortTweetsBySortDateDesc(tweetsFromOthers))
 }
 
+export const deleteTweet = async (tweetId, userId) => {
+	const foundTweet = await tweetDataSource.findTweetById(tweetId)
+	if (!foundTweet) {
+		throw new Error('tweet/not-found')
+	}
+	if (foundTweet.authorId !== userId) {
+		throw new Error('tweet/not-author')
+	}
+	await tweetDataSource.deleteTweet(tweetId)
+	notifyDataChanged('tweets')
+}
+
+export const subscribeToLatestTweets = (onTweets) => {
+	return tweetDataSource.listenToLatestTweets(MAX_EXPLORE_TWEETS, onTweets)
+}
+
 export const getTweetById = async (tweetId) => {
 	const foundTweet = await tweetDataSource.findTweetById(tweetId)
 	if (!foundTweet) {
@@ -160,6 +177,7 @@ export const createTweet = async (authorId, body, mediaFile = null) => {
 		mediaUrl,
 		mediaType,
 	})
+	notifyDataChanged('tweets')
 	const [tweetWithAuthor] = await addAuthorToTweets([savedTweet])
 	return tweetWithAuthor
 }
