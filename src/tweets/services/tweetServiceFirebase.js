@@ -1,6 +1,16 @@
-import { addDoc, collection, query, where } from 'firebase/firestore'
+import {
+	addDoc,
+	collection,
+	doc,
+	documentId,
+	getDoc,
+	limit,
+	orderBy,
+	query,
+	where,
+} from 'firebase/firestore'
 import { getFirebaseDb } from '../../firebase/config'
-import { queryInChunks } from '../../firebase/firestoreHelpers'
+import { getDocumentsData, queryInChunks } from '../../firebase/firestoreHelpers'
 
 const TWEETS_COLLECTION = 'tweets'
 
@@ -12,7 +22,27 @@ export const findTweetsByAuthorIds = async (authorIds) => {
 	)
 }
 
+export const findTweetsByIds = async (tweetIds) => {
+	return queryInChunks(tweetIds, (tweetIdsChunk) =>
+		query(getTweetsCollection(), where(documentId(), 'in', tweetIdsChunk)),
+	)
+}
+
+export const findTweetById = async (tweetId) => {
+	const tweetSnapshot = await getDoc(doc(getTweetsCollection(), tweetId))
+	return tweetSnapshot.exists() ? { id: tweetSnapshot.id, ...tweetSnapshot.data() } : null
+}
+
 export const saveTweet = async (tweet) => {
 	const newDocument = await addDoc(getTweetsCollection(), tweet)
 	return { ...tweet, id: newDocument.id }
+}
+
+export const findLatestTweets = (maxTweets) => {
+	const latestTweetsQuery = query(
+		getTweetsCollection(),
+		orderBy('createdAt', 'desc'),
+		limit(maxTweets),
+	)
+	return getDocumentsData(latestTweetsQuery)
 }

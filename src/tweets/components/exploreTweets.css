@@ -1,0 +1,18 @@
+.explore-title {
+	margin: 0;
+	padding: 14px 16px;
+	border-bottom: 1px solid var(--app-line, #2f3336);
+	font-size: 20px;
+	font-weight: 700;
+    color: var(--app-text, #e7e9ea);
+}
+
+.explore-item {
+	position: relative;
+}
+
+.explore-item__follow {
+	position: absolute;
+	top: 10px;
+	right: 16px;
+}

@@ -119,3 +119,44 @@
 	color: #f4212e;
 	font-size: 0.9rem;
 }
+
+.avatar-picker {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.6rem;
+}
+
+.avatar-picker__input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+	overflow: hidden;
+}
+
+.avatar-picker__button {
+	padding: 0.5rem 1rem;
+	border: 1px solid #536471;
+	border-radius: 999px;
+	color: var(--auth-text);
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.avatar-picker__button:hover,
+.avatar-picker__input:focus-visible + .avatar-picker__button {
+	border-color: var(--auth-accent);
+	color: var(--auth-accent);
+}
+
+.avatar-picker__remove {
+	padding: 0;
+	border: none;
+	background: none;
+	color: var(--auth-muted);
+	font: inherit;
+	font-size: 0.85rem;
+	text-decoration: underline;
+	cursor: pointer;
+}

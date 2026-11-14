@@ -22,6 +22,7 @@ export const FollowButton = ({ followerId, targetUserId, onFollowed }) => {
 			await followUser(followerId, targetUserId)
 			onFollowed?.(targetUserId)
 		} catch (followError) {
+			console.error('Error following user:', followError)
 			setErrorMessage(getFollowErrorMessage(followError))
 		} finally {
 			setIsSubmitting(false)

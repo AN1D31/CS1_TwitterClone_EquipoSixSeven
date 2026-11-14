@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { registerUser } from '../services/authService'
 import { AuthField } from '../components/AuthField'
+import { MAX_IMAGE_SIZE_MB } from '../../cloudinary/mediaUploadService'
+import { AvatarPicker } from '../components/AvatarPicker'
 import './authPages.css'
 
 const MIN_PASSWORD_LENGTH = 6
@@ -18,6 +20,10 @@ const registerErrorMessages = {
 	'auth/email-already-in-use': 'Ese correo electrónico ya está registrado.',
 	'auth/invalid-email': 'El correo electrónico no es válido.',
 	'auth/weak-password': 'La contraseña es muy débil.',
+	'media/unsupported-type': 'La foto de perfil debe ser una imagen.',
+	'media/file-too-large': `La foto es muy pesada. El máximo es ${MAX_IMAGE_SIZE_MB} MB.`,
+	'media/upload-failed': 'No se pudo subir la foto. Intenta de nuevo.',
+	'media/not-configured': 'La subida de fotos no está configurada todavía.',
 }
 
 const getRegisterErrorMessage = (error) => {
@@ -37,6 +43,7 @@ const validateRegisterForm = ({ username, password }) => {
 export const RegisterPage = () => {
 	const navigate = useNavigate()
 	const [registerForm, setRegisterForm] = useState(initialRegisterForm)
+	const [avatarFile, setAvatarFile] = useState(null)
 	const [errorMessage, setErrorMessage] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -48,7 +55,7 @@ export const RegisterPage = () => {
 	const submitRegistration = async () => {
 		setIsLoading(true)
 		try {
-			await registerUser(registerForm)
+			await registerUser({ ...registerForm, avatarFile })
 			navigate('/auth/login')
 		} catch (error) {
 			setErrorMessage(getRegisterErrorMessage(error))
@@ -71,6 +78,12 @@ export const RegisterPage = () => {
 		<main className="auth-page">
 			<form className="auth-form" onSubmit={handleSubmit}>
 				<h1>Crear cuenta</h1>
+
+				<AvatarPicker
+					fullName={registerForm.fullName}
+					avatarFile={avatarFile}
+					onAvatarChange={setAvatarFile}
+				/>
 
 				<AuthField
 					id="register-full-name"

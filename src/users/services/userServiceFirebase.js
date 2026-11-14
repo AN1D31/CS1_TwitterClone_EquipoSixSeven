@@ -1,9 +1,7 @@
-import { collection, doc, documentId, getDoc, limit, query, setDoc, where } from 'firebase/firestore'
+import { collection, doc, documentId, getDoc, limit, query, setDoc, updateDoc, where } from 'firebase/firestore'
 import { getFirebaseDb } from '../../firebase/config'
 import { getDocumentsData, queryInChunks } from '../../firebase/firestoreHelpers'
 
-// Users live in the "users" collection, one document per user.
-// The document id is the Firebase Auth uid.
 const USERS_COLLECTION = 'users'
 
 const getUsersCollection = () => collection(getFirebaseDb(), USERS_COLLECTION)
@@ -14,8 +12,6 @@ const findFirstUserByField = async (fieldName, fieldValue) => {
 	return foundUser ?? null
 }
 
-// Used by the user search. Fine for a prototype with few users;
-// a real app would search on the server instead of reading the whole collection.
 export const findAllUsers = () => getDocumentsData(getUsersCollection())
 
 export const findUserById = async (userId) => {
@@ -37,4 +33,9 @@ export const saveUser = async (user) => {
 	const { id, ...userFields } = user
 	await setDoc(doc(getUsersCollection(), id), userFields)
 	return user
+}
+
+export const updateUserAvatarUrl = async (userId, avatarUrl) => {
+	await updateDoc(doc(getUsersCollection(), userId), { avatarUrl })
+	return findUserById(userId)
 }

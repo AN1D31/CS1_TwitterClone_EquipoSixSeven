@@ -28,3 +28,12 @@ export const saveUser = async (user) => {
 	currentUsers.push(user)
 	return user
 }
+
+export const updateUserAvatarUrl = async (userId, avatarUrl) => {
+	const userIndex = currentUsers.findIndex((user) => user.id === userId)
+	if (userIndex === -1) {
+		throw new Error('users/user-not-found')
+	}
+	currentUsers[userIndex] = { ...currentUsers[userIndex], avatarUrl }
+	return currentUsers[userIndex]
+}

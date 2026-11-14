@@ -7,9 +7,8 @@ import {
 } from '../../users/services/userService'
 import * as authServiceFirebase from './authServiceFirebase'
 import * as authServiceMock from './authServiceMock'
+import { uploadImageToCloudinary } from '../../cloudinary/mediaUploadService'
 
-// Users are always read and saved through userService. Only the credentials
-// (password check, account creation) depend on the data source.
 const authDataSource = USE_MOCKS ? authServiceMock : authServiceFirebase
 
 const buildUsernameFromEmail = (email) => {
@@ -25,7 +24,14 @@ const buildAvailableUsername = async (email) => {
 	return candidateUsername
 }
 
-export const registerUser = async ({ fullName, username, email, password }) => {
+const uploadAvatarIfProvided = async (avatarFile) => {
+	if (!avatarFile) {
+		return null
+	}
+	return uploadImageToCloudinary(avatarFile)
+}
+
+export const registerUser = async ({ fullName, username, email, password, avatarFile = null }) => {
 	const normalizedUsername = username.trim().toLowerCase()
 	const normalizedEmail = email.trim().toLowerCase()
 
@@ -36,6 +42,8 @@ export const registerUser = async ({ fullName, username, email, password }) => {
 		throw new Error('auth/email-already-in-use')
 	}
 
+	const avatarUrl = await uploadAvatarIfProvided(avatarFile)
+
 	const newUserId = await authDataSource.createAccount({
 		email: normalizedEmail,
 		password,
@@ -45,7 +53,7 @@ export const registerUser = async ({ fullName, username, email, password }) => {
 		fullName: fullName.trim(),
 		username: normalizedUsername,
 		email: normalizedEmail,
-		avatarUrl: null,
+		avatarUrl: avatarUrl,
 		createdAt: new Date().toISOString(),
 	})
 }

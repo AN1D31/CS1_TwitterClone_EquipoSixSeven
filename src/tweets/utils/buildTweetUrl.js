@@ -1,0 +1,1 @@
+export const buildTweetUrl = (tweetId) => `${window.location.origin}/tweets/${tweetId}`
