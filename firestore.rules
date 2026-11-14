@@ -23,5 +23,36 @@ service cloud.firestore {
       allow create: if request.auth != null
         && request.resource.data.authorId == request.auth.uid;
     }
+
+    // Comments: anyone can read; you can only comment as yourself, with 1 to 280 characters.
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.authorId == request.auth.uid
+        && request.resource.data.body is string
+        && request.resource.data.body.size() > 0
+        && request.resource.data.body.size() <= 280;
+    }
+
+    // Likes: anyone can read; you can only like as yourself (id = tweetId_userId) and remove your own like.
+    match /likes/{likeId} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.userId == request.auth.uid
+        && likeId == request.resource.data.tweetId + '_' + request.auth.uid;
+      allow delete: if request.auth != null
+        && resource.data.userId == request.auth.uid;
+    }
+
+    // Reposts: anyone can read (profiles and feeds show them); you can only repost as yourself
+    // (id = tweetId_userId) and undo your own repost.
+    match /reposts/{repostId} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.userId == request.auth.uid
+        && repostId == request.resource.data.tweetId + '_' + request.auth.uid;
+      allow delete: if request.auth != null
+        && resource.data.userId == request.auth.uid;
+    }
   }
 }
