@@ -7,6 +7,8 @@ import { DeleteTweetButton } from './DeleteTweetButton'
 import { LikeButton } from './LikeButton'
 import { ShareButton } from './ShareButton'
 import { TweetMedia } from './TweetMedia'
+import { UserAvatar } from '../../users/components/UserAvatar'
+import './tweetCard.css'
 
 // The delete button only appears on the logged user's own tweets.
 // After deleting, the card hides itself and notifies the parent with onDeleted (optional).
@@ -30,31 +32,47 @@ export const TweetCard = ({ tweet, onDeleted }) => {
 					reposteó
 				</p>
 			)}
-			<header className="tweet-card__header">
-				<Link to={`/users/${tweet.authorUsername}`} className="tweet-card__author">
-					{tweet.authorFullName}, @{tweet.authorUsername}
-				</Link>
-				{' - '}
-				<Link to={`/tweets/${tweet.id}`} className="tweet-card__date-link">
-					<time dateTime={tweet.createdAt} className="tweet-card__date">
-						{formatTweetDate(tweet.createdAt)}
-					</time>
-				</Link>
-			</header>
-			<p className="tweet-card__body">{tweet.body}</p>
-			<TweetMedia mediaUrl={tweet.mediaUrl} mediaType={tweet.mediaType} />
-			<footer className="tweet-card__actions">
-				<CommentButton tweetId={tweet.id} />
-				<LikeButton tweetId={tweet.id} />
-				<ShareButton tweetId={tweet.id} />
-				{isOwnTweet && (
-					<DeleteTweetButton
-						tweetId={tweet.id}
-						userId={currentUser.id}
-						onDeleted={handleDeleted}
-					/>
-				)}
-			</footer>
+			<Link
+				to={`/users/${tweet.authorUsername}`}
+				className="tweet-card__avatar"
+				aria-hidden="true"
+				tabIndex={-1}
+			>
+				<UserAvatar
+					fullName={tweet.authorFullName}
+					username={tweet.authorUsername}
+					avatarUrl={tweet.author?.avatarUrl}
+					size={44}
+				/>
+			</Link>
+			<div className="tweet-card__content">
+				<header className="tweet-card__header">
+					<Link to={`/users/${tweet.authorUsername}`} className="tweet-card__author">
+						{tweet.authorFullName},{' '}
+						<span className="tweet-card__username">@{tweet.authorUsername}</span>
+					</Link>
+					{' - '}
+					<Link to={`/tweets/${tweet.id}`} className="tweet-card__date-link">
+						<time dateTime={tweet.createdAt} className="tweet-card__date">
+							{formatTweetDate(tweet.createdAt)}
+						</time>
+					</Link>
+				</header>
+				<p className="tweet-card__body">{tweet.body}</p>
+				<TweetMedia mediaUrl={tweet.mediaUrl} mediaType={tweet.mediaType} />
+				<footer className="tweet-card__actions">
+					<CommentButton tweetId={tweet.id} />
+					<LikeButton tweetId={tweet.id} />
+					<ShareButton tweetId={tweet.id} />
+					{isOwnTweet && (
+						<DeleteTweetButton
+							tweetId={tweet.id}
+							userId={currentUser.id}
+							onDeleted={handleDeleted}
+						/>
+					)}
+				</footer>
+			</div>
 		</article>
 	)
 }
