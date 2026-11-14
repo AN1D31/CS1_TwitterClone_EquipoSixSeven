@@ -1,0 +1,44 @@
+.profile__actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.change-avatar {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 4px;
+}
+
+.change-avatar__input {
+	display: none;
+}
+
+.change-avatar__button {
+	padding: 6px 14px;
+	border: 1px solid #536471;
+	border-radius: 999px;
+	background: none;
+	color: inherit;
+	font: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.change-avatar__button:hover:not(:disabled) {
+	border-color: #1d9bf0;
+	color: #1d9bf0;
+}
+
+.change-avatar__button:disabled {
+	opacity: 0.6;
+	cursor: wait;
+}
+
+.change-avatar__error {
+	color: #f4212e;
+	font-size: 12px;
+}

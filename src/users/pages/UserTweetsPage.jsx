@@ -1,50 +1,111 @@
 import { useCallback, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import { useAsyncData } from '../hooks/useAsyncData'
 import { useAuth } from '../../auth/hooks/useAuth'
 import { getUserByUsername } from '../services/userService'
 import { normalizeUsername } from '../utils/normalizeUsername'
 import { getFollowCountsByUserId, isUserFollowing } from '../services/followService'
-import { getTweetsByUserId } from '../../tweets/services/tweetService'
+import { getAuthoredTweetsByUserId, getRepostedTweetsByUserId, getTweetsByUserId } from '../../tweets/services/tweetService'
 import { BackHeader } from '../components/BackHeader'
 import { FollowButton } from '../components/FollowButton'
 import { FollowCounts } from '../components/FollowCounts'
 import { Loader, StatusMessage } from '../components/StatusMessage'
 import { UserAvatar } from '../components/UserAvatar'
 import { UserTweetList } from '../components/UserTweetList'
+import { ChangeAvatarButton } from '../components/ChangeAvatarButton'
 import '../users.css'
 
-// Without a logged user there is nobody to follow from, so the profile counts as not followed.
 const checkViewerFollows = (viewerId, profileUserId) =>
 	viewerId ? isUserFollowing(viewerId, profileUserId) : Promise.resolve(false)
 
-const loadProfile = async (username, viewerId) => {
+const profileTabs = {
+	all: {
+		path: '',
+		label: 'Todo',
+		loadTweets: getTweetsByUserId,
+		countLabel: 'publicaciones',
+		emptyMessage: 'Este usuario todavía no ha publicado ni reposteado nada.',
+	},
+	tweets: {
+		path: '/tweets',
+		label: 'Tweets',
+		loadTweets: getAuthoredTweetsByUserId,
+		countLabel: 'tweets',
+		emptyMessage: 'Este usuario todavía no ha publicado tweets.',
+	},
+	reposts: {
+		path: '/reposts',
+		label: 'Reposts',
+		loadTweets: getRepostedTweetsByUserId,
+		countLabel: 'reposts',
+		emptyMessage: 'Este usuario todavía no ha reposteado nada.',
+	},
+}
+
+const getTabClassName = ({ isActive }) => {
+	return isActive ? 'user-tabs__item user-tabs__item--active' : 'user-tabs__item'
+}
+
+const ProfileTabs = ({ username }) => (
+	<nav className="user-tabs" aria-label="Contenido del perfil">
+		{Object.values(profileTabs).map((tab) => (
+			<NavLink
+				key={tab.label}
+				to={`/users/${username}${tab.path}`}
+				end
+				className={getTabClassName}
+			>
+				{tab.label}
+			</NavLink>
+		))}
+	</nav>
+)
+
+const loadProfile = async (username, viewerId, tab) => {
 	const profileUser = await getUserByUsername(normalizeUsername(username))
 	if (!profileUser) return { profileUser: null }
 
 	const [tweets, counts, isFollowed] = await Promise.all([
-		getTweetsByUserId(profileUser.id),
+		profileTabs[tab].loadTweets(profileUser.id),
 		getFollowCountsByUserId(profileUser.id),
 		checkViewerFollows(viewerId, profileUser.id),
 	])
 	return { profileUser, tweets, counts, isFollowed }
 }
 
-const ProfileAction = ({ isOwnProfile, isFollowed, viewerId, profileUserId, onFollowed }) => {
+const ProfileAction = ({
+	isOwnProfile,
+	isFollowed,
+	viewerId,
+	profileUserId,
+	hasAvatar,
+	onFollowed,
+	onAvatarChanged,
+}) => {
 	if (!viewerId) return null
-	if (isOwnProfile) return <span className="user-badge">Tu perfil</span>
+	if (isOwnProfile) {
+		return (
+			<div className="profile__actions">
+				<span className="user-badge">Tu perfil</span>
+				<ChangeAvatarButton
+					userId={viewerId}
+					hasAvatar={hasAvatar}
+					onAvatarChanged={onAvatarChanged}
+				/>
+			</div>
+		)
+	}
 	if (isFollowed) return <span className="user-badge">Siguiendo</span>
 	return <FollowButton followerId={viewerId} targetUserId={profileUserId} onFollowed={onFollowed} />
 }
 
-// Tweets of a user (newest first, 10 per page) with followers/following counters and "[Seguir]".
-const UserProfile = ({ username }) => {
-	const { currentUser } = useAuth()
+const UserProfile = ({ username, tab }) => {
+	const { currentUser, login } = useAuth()
 	const viewerId = currentUser?.id ?? null
 	const [reloadCount, setReloadCount] = useState(0)
 	const loadUserProfile = useCallback(
-		() => loadProfile(username, viewerId, reloadCount),
-		[username, viewerId, reloadCount],
+		() => loadProfile(username, viewerId, tab, reloadCount),
+		[username, viewerId, tab, reloadCount],
 	)
 	const { result: profile, isLoading, error } = useAsyncData(loadUserProfile)
 
@@ -55,9 +116,14 @@ const UserProfile = ({ username }) => {
 	const { profileUser, tweets, counts, isFollowed } = profile
 	const reloadProfile = () => setReloadCount((previousCount) => previousCount + 1)
 
+	const handleAvatarChanged = (updatedUser) => {
+		login(updatedUser)
+		reloadProfile()
+	}
+
 	return (
 		<div className="users-feature">
-			<BackHeader title={profileUser.fullName} subtitle={`${tweets.length} tweets`} showBack />
+			<BackHeader title={profileUser.fullName} subtitle={`${tweets.length} ${profileTabs[tab].countLabel}`} showBack />
 			<section className="profile">
 				<div className="profile__banner" />
 				<div className="profile__top">
@@ -67,20 +133,22 @@ const UserProfile = ({ username }) => {
 						isFollowed={isFollowed}
 						viewerId={viewerId}
 						profileUserId={profileUser.id}
+						hasAvatar={Boolean(profileUser.avatarUrl)}
 						onFollowed={reloadProfile}
+						onAvatarChanged={handleAvatarChanged}
 					/>
 				</div>
 				<h2 className="profile__name">{profileUser.fullName}</h2>
 				<p className="profile__username">@{profileUser.username}</p>
 				<FollowCounts username={profileUser.username} counts={counts} />
 			</section>
-			<h3 className="profile__section-title">Tweets</h3>
-			<UserTweetList tweets={tweets} />
+			<ProfileTabs username={profileUser.username} />
+			<UserTweetList tweets={tweets} emptyMessage={profileTabs[tab].emptyMessage} />
 		</div>
 	)
 }
 
-export const UserTweetsPage = () => {
+export const UserTweetsPage = ({ tab = 'all' }) => {
 	const { username } = useParams()
-	return <UserProfile key={username} username={username} />
+	return <UserProfile key={`${username}-${tab}`} username={username} tab={tab} />
 }

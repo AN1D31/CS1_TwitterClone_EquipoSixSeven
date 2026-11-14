@@ -1,9 +1,8 @@
+import { uploadImageToCloudinary } from '../../cloudinary/mediaUploadService'
 import { USE_MOCKS } from '../../firebase/dataSourceMode'
 import * as userServiceFirebase from './userServiceFirebase'
 import * as userServiceMock from './userServiceMock'
 
-// Pages and components always call this file. Only the data source changes
-// (mock or Firebase), so the rest of the app does not care where users come from.
 const userDataSource = USE_MOCKS ? userServiceMock : userServiceFirebase
 
 export const sortUsersByFullNameAsc = (users) => {
@@ -25,6 +24,11 @@ export const getUsersByIds = async (userIds) => {
 		return []
 	}
 	return userDataSource.findUsersByIds(userIds)
+}
+
+export const changeUserAvatar = async (userId, avatarFile) => {
+	const newAvatarUrl = await uploadImageToCloudinary(avatarFile)
+	return userDataSource.updateUserAvatarUrl(userId, newAvatarUrl)
 }
 
 export const saveUser = (user) => userDataSource.saveUser(user)

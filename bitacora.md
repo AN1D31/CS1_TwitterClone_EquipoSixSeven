@@ -439,3 +439,116 @@ LINK:https://claude.ai/share/24adf3f6-2903-4032-825f-51817cbf50c9
 - **Student message:** "y vamos haciendo los issues que me asignaron en otra rama para integrarlos, tambien te pasare el contexto de todo lo que hice anteriormente, igual revisa el codigo porque mis amigos lo van actualizando"
 - **Summary:** Built the Feed page (#13) with pagination, TweetCard and loading/error/empty states, and the follow-by-username form (#45). Fixed the feed branch base by merging the updated develop.
 - **Files created or modified:** src/tweets/pages/FeedPage.jsx, src/tweets/pages/feedPage.css, src/users/components/FollowByUsernameForm.jsx, src/users/components/followByUsernameForm.css, src/pages/HomePage.jsx
+
+
+## 2026-11-13 23:40 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "y pasemos con el ultimo boton, te puedes guiar también con el mismo proyecto pero en movil, del repo que te compartir, para que sepas como quiero que se vea el tweet y sus funcionalidades, ahora si el ultimo"
+- **Summary:** Built tweet comments following the mobile project's ViewPost screen: a `comments` collection in Firestore, comment service with mock and Firebase sources, comment button with counter in TweetCard, and a comment form plus list (newest first) on the tweet page. Added the Firestore rule for comments.
+- **Files created or modified:** src/tweets/services/commentService.js, src/tweets/services/commentServiceMock.js, src/tweets/services/commentServiceFirebase.js, src/tweets/components/CommentButton.jsx, src/tweets/components/CommentForm.jsx, src/tweets/components/CommentItem.jsx, src/tweets/components/CommentSection.jsx, src/tweets/components/comments.css, src/tweets/components/TweetCard.jsx, src/tweets/pages/TweetPage.jsx, src/tweets/components/tweetActions.css, firestore.rules
+
+## 2026-11-13 23:49 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "Ahora quiero cambiar el perfil, quiero que se agreguen tres paginas, una donde se enlisten todos los tweets que cree o los que reepostee, otro solo los que publique y otro donde esten solo los reposteos"
+- **Summary:** Added three profile tabs, each with its own route: all (tweets and reposts), only tweets and only reposts. Added `getAuthoredTweetsByUserId` and `getRepostedTweetsByUserId`, and made the empty-list message a prop.
+- **Files created or modified:** src/tweets/services/tweetService.js, src/users/components/UserTweetList.jsx, src/users/routes/UsersRoutes.jsx, src/users/pages/UserTweetsPage.jsx
+
+## 2026-11-14 00:08 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "en la pagina del inicio quiero que aparezcan todos los post de las demás personas así no las siga, y si no las sigo me aparezca su tweet y me aparezca el boton de seguir si quiero desde el inicio, en el fedd son solo para los que yo sigo"
+- **Summary:** The home page now lists tweets from every other user (followed or not), with a Follow button over the tweets of users not followed yet. The feed is unchanged (own tweets and followed users only).
+- **Files created or modified:** src/tweets/components/ExploreTweets.jsx, src/tweets/components/exploreTweets.css, src/tweets/services/tweetService.js, src/tweets/services/tweetServiceMock.js, src/tweets/services/tweetServiceFirebase.js, src/pages/HomePage.jsx
+
+## 2026-11-14 00:21 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "Es normal que se quede cargando, se ponga lento y no me deje ya seleccionar por quedarse cargando, como si se hubiera petatiado"
+- **Summary:** The home list read the whole tweets collection. Replaced it with a query for the 50 latest tweets (`orderBy createdAt desc` + `limit`) and fixed the section title color, which was dark on a black background.
+- **Files created or modified:** src/tweets/services/tweetServiceFirebase.js, src/tweets/services/tweetServiceMock.js, src/tweets/services/tweetService.js, src/tweets/components/exploreTweets.css
+
+## 2026-11-14 00:40 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "se me puso el pc muy lento" / "no me abre la consola, lo mejor sera subir el cambio y que lo pruebe mi compañera no" / "ya cargo, pero si yo quiero buscar una persona con tweet se queda cargando y de una se cae"
+- **Summary:** Diagnosed the browser freeze ("La página no responde"). Ran the app in mock mode with a real browser (it loaded fine), recommended keeping the change in its own draft branch, and narrowed the freeze to rendering real tweets, not the Firestore query.
+- **Files created or modified:** bitacora.md
+
+## 2026-11-14 00:55 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "Puedes revisar el codigo completo y mirar porque sucede o si algo se corrompio" / "Pasamelos en la consola" (with the project zip)
+- **Summary:** Found the cause of the freeze: TweetCard.jsx had a pasted block from TweetPage that made it render itself endlessly. Also fixed the missing `CommentButton` import, `findTweetById` (mock and Firebase), `CommentSection` in TweetPage, `updateUserAvatarUrl` placed in the follow mock instead of the user mock, the disabled `<ExploreTweets />`, and the missing comments, likes and reposts Firestore rules. Delivered the corrected files.
+- **Files created or modified:** src/tweets/components/TweetCard.jsx, src/tweets/pages/TweetPage.jsx, src/pages/HomePage.jsx, src/tweets/services/tweetServiceFirebase.js, src/tweets/services/tweetServiceMock.js, src/users/services/followServiceMock.js, src/users/services/userServiceMock.js, firestore.rules
+
+## 2026-11-14 01:09 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "en crear cuenta se elimino el boton de agregar la imagen desde el register, foto de perfil"
+- **Summary:** Recovered the optional profile photo picker on the register page from the stash: AvatarPicker component, avatar upload to Cloudinary before creating the account, error messages and styles.
+- **Files created or modified:** src/auth/components/AvatarPicker.jsx, src/auth/pages/RegisterPage.jsx, src/auth/services/authService.js, src/auth/pages/authPages.css
+
+## 2026-11-14 01:29 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "en el inicio no aparecen los tweets de las personas que han publicado..." / "Creo que si solo se puede hacer con nuevos usuarios..." / "de igual si son de ayer deberian de aparecer"
+- **Summary:** Explained that Firestore rules only limit writes, so existing users and tweets do not need to be recreated. Showed that follow, like and repost failed together with permission errors while reads worked, pointing to a lost Firebase Auth session. Found that `<ExploreTweets />` was still commented out in HomePage and asked for the explore console logs.
+- **Files created or modified:** bitacora.md
+
+## 2026-11-14 01:32 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "con eso dio, pero sigo sin poderlo seguir"
+- **Summary:** The home list now showed other users' tweets. For the failing Follow button, added a temporary diagnostic in FollowButton that logs the Firebase Auth uid next to the session id.
+- **Files created or modified:** src/users/components/FollowButton.jsx
+
+## 2026-11-14 01:34 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "Pero subamos los cambios todos ya, así mis compañeros ya lo pueden probar" (console showed `auth uid: undefined`)
+- **Summary:** Confirmed the follow error was a lost Firebase Auth session (`auth uid: undefined`). Listed the cleanup before pushing (temporary logs, stray share* files) and prepared a single branch with likes, reposts, comments, profile tabs, home explore, avatar upload and Firestore rules, plus PR text and notes for the team.
+- **Files created or modified:** bitacora.md, firestore.rules, src/tweets/components/*, src/tweets/services/*, src/tweets/pages/*, src/users/pages/UserTweetsPage.jsx, src/users/components/*, src/auth/*, src/pages/HomePage.jsx
+
+## 2026-11-14 01:39 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** Terminal output of the cleanup, lint and build, and a Firestore screenshot of the fede77 user document.
+- **Summary:** Confirmed lint and build pass and no debug logs remain. The user document ID matches the session id, so the account is fine and only the Firebase session was lost; no need to recreate it.
+- **Files created or modified:** bitacora.md
+
+## 2026-11-14 01:41 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "si dio" (after logging out, logging in again and testing follow, like and repost)
+- **Summary:** Follow, like and repost work with the Firebase session restored. Identified the root cause of the recurring error: Firebase Auth is only initialized on register, login or logout, so after a page reload Firestore receives requests without a user. A fix in AuthProvider (verify the Firebase session on startup) was proposed but not applied.
+- **Files created or modified:** bitacora.md
+
+## 2026-11-14 01:42 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "Listo entonces vamos a subirlo"
+- **Summary:** Gave the steps to create the branch feature/tweet-interactions, make the commits (code, rules and log), push it and open the pull request to develop, with the notes for the team (publish rules, Cloudinary keys, sign in again on permission errors).
+- **Files created or modified:** bitacora.md
+
+## 2026-11-14 01:45 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "puedes pasarme un listado de todas las bitacoras por favor, aparte de agregar el link de este chat"
+- **Summary:** Compiled every log entry from this conversation in the repository format, with the conversation link added and the times aligned to the real message times.
+- **Files created or modified:** bitacora.md

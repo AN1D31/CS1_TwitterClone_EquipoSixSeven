@@ -1,0 +1,128 @@
+.tweet-card__actions {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	margin-top: 8px;
+}
+
+.tweet-action {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.tweet-action__button {
+	padding: 4px 8px;
+	border: none;
+	border-radius: 999px;
+	background: none;
+	color: var(--app-muted, #71767b);
+	font: inherit;
+	font-size: 20px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.tweet-action__button:hover:not(:disabled) {
+	background: rgba(249, 24, 128, 0.1);
+	color: #f91880;
+}
+
+.tweet-action__button--liked {
+	color: #f91880;
+}
+
+.tweet-action__button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.tweet-action__count {
+	color: var(--app-muted, #71767b);
+	font-size: 14px;
+	text-decoration: none;
+}
+
+.tweet-action__count:hover {
+	text-decoration: underline;
+}
+
+.tweet-action__button--share:hover:not(:disabled) {
+	background: rgba(29, 155, 240, 0.1);
+	color: var(--app-accent, #1d9bf0);
+}
+
+.tweet-action__count--static:hover {
+	text-decoration: none;
+}
+
+.tweet-card__date-link {
+	color: inherit;
+	text-decoration: none;
+}
+
+.tweet-card__date-link:hover {
+	text-decoration: underline;
+}
+
+.tweet-action--menu {
+	position: relative;
+}
+
+.tweet-action__button--reposted {
+	color: #00ba7c;
+}
+
+.tweet-menu {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 10;
+	display: flex;
+	flex-direction: column;
+	min-width: 160px;
+	padding: 4px 0;
+	border: 1px solid var(--app-line, #2f3336);
+	border-radius: 12px;
+	background: #000;
+	box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
+}
+
+.tweet-menu__item {
+	padding: 10px 16px;
+	border: none;
+	background: none;
+	color: var(--app-text, #e7e9ea);
+	font: inherit;
+	font-weight: 700;
+	text-align: left;
+	cursor: pointer;
+}
+
+.tweet-menu__item:hover {
+	background: rgba(231, 233, 234, 0.1);
+}
+
+.tweet-card__repost {
+	margin: 0 0 4px;
+	color: var(--app-muted, #71767b);
+	font-size: 13px;
+	font-weight: 700;
+}
+
+.tweet-card__repost a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.tweet-card__repost a:hover {
+	text-decoration: underline;
+}
+
+.tweet-action__button--comment {
+	text-decoration: none;
+}
+
+.tweet-action__button--comment:hover {
+	background: rgba(29, 155, 240, 0.1);
+}
