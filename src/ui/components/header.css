@@ -16,9 +16,9 @@
 .app-header__logo {
 	display: grid;
 	place-items: center;
-	width: 48px;
+	width: 56px;
 	height: 48px;
-	border-radius: 50%;
+	border-radius: 999px;
 	color: var(--app-text);
 	font-size: 20px;
 	font-weight: 800;
@@ -124,7 +124,7 @@
 	}
 
 	.app-header__logo {
-		width: 40px;
+		width: 48px;
 		height: 40px;
 		font-size: 17px;
 	}

@@ -1,6 +1,7 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/hooks/useAuth'
 import { logoutUser } from '../../auth/services/authService'
+import { AppLogo } from './AppLogo'
 import './header.css'
 
 // SVG paths (24x24) for the icon shown next to each navigation link.
@@ -52,7 +53,7 @@ export const Header = () => {
 	return (
 		<header className="app-header">
 			<Link to="/" className="app-header__logo" aria-label="Ir al inicio">
-				67
+				<AppLogo size={24} />
 			</Link>
 			<nav className="app-header__nav" aria-label="Navegación principal">
 				{navigationLinks.map((navigationLink) => (
