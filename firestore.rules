@@ -10,11 +10,14 @@ service cloud.firestore {
         && request.auth.uid == userId;
     }
 
-    // Follows: anyone can read; you can only create follows where you are the follower.
+    // Follows: anyone can read; you can only create follows where you are the follower
+    // and remove your own follows (unfollow).
     match /follows/{followId} {
       allow read: if true;
       allow create: if request.auth != null
         && request.resource.data.followerId == request.auth.uid;
+      allow delete: if request.auth != null
+        && resource.data.followerId == request.auth.uid;
     }
 
     // Tweets: anyone can read; you can only publish tweets under your own name.
