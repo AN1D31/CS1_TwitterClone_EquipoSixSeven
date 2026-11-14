@@ -1,7 +1,7 @@
 import { USE_MOCKS } from '../../firebase/dataSourceMode'
 import * as followServiceFirebase from './followServiceFirebase'
 import * as followServiceMock from './followServiceMock'
-import { getUsersByIds, sortUsersByFullNameAsc } from './userService'
+import { getAllUsers, getUsersByIds, sortUsersByFullNameAsc } from './userService'
 
 const followDataSource = USE_MOCKS ? followServiceMock : followServiceFirebase
 
@@ -55,6 +55,24 @@ export const followUser = async (followerId, followingId) => {
 		followingId,
 		createdAt: new Date().toISOString(),
 	})
+}
+
+export const unfollowUser = async (followerId, followingId) => {
+	const isFollowing = await isUserFollowing(followerId, followingId)
+	if (!isFollowing) {
+		throw new Error('follow/not-following')
+	}
+	await followDataSource.deleteFollow(followerId, followingId)
+}
+
+export const getUsersToDiscoverByUserId = async (userId) => {
+	const [allUsers, followingIds] = await Promise.all([
+		getAllUsers(),
+		getFollowingIdsByUserId(userId),
+	])
+	const followedIds = new Set(followingIds)
+	const usersToDiscover = allUsers.filter((user) => user.id !== userId && !followedIds.has(user.id))
+	return sortUsersByFullNameAsc(usersToDiscover)
 }
 
 export const getFollowCountsByUserId = async (userId) => {

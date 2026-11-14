@@ -183,6 +183,42 @@
 	cursor: wait;
 }
 
+.unfollow-button {
+	padding: 6px 14px;
+	border: 1px solid #536471;
+	border-radius: 999px;
+	background: transparent;
+	color: var(--users-text);
+	font: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.unfollow-button__label--hover {
+	display: none;
+}
+
+.unfollow-button:hover:not(:disabled) {
+	border-color: #67070f;
+	background: rgba(244, 33, 46, 0.1);
+	color: #f4212e;
+}
+
+.unfollow-button:hover:not(:disabled) .unfollow-button__label {
+	display: none;
+}
+
+.unfollow-button:hover:not(:disabled) .unfollow-button__label--hover {
+	display: inline;
+}
+
+.unfollow-button:disabled {
+	opacity: 0.6;
+	cursor: wait;
+}
+
 .follow-button__error {
 	color: #f4212e;
 	font-size: 12px;

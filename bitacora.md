@@ -552,3 +552,99 @@ LINK:https://claude.ai/share/24adf3f6-2903-4032-825f-51817cbf50c9
 - **Student message:** "puedes pasarme un listado de todas las bitacoras por favor, aparte de agregar el link de este chat"
 - **Summary:** Compiled every log entry from this conversation in the repository format, with the conversation link added and the times aligned to the real message times.
 - **Files created or modified:** bitacora.md
+
+## 2026-11-14 01:52 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "pero faltan desde dias antes"
+- **Summary:** Searched earlier conversations to complete the log. Rebuilt three entries for 2026-10-30 and 2026-10-31 (Firebase setup, Screaming Architecture fixes, full code review and study session). The work between 2026-11-01 and 2026-11-13 was not found in searchable chats, so it was left out until the student provides her bitacora.md or the details.
+- **Files created or modified:** bitacora.md
+
+## 2026-11-14 01:55 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** Pull request template pasted without text.
+- **Summary:** Filled the pull request template for feature/tweet-interactions: description, type of change, testing steps (rules, Cloudinary variables, re-login note), suggested screenshots and checklist. Left the related issue open until the student confirms the number.
+- **Files created or modified:** bitacora.md
+
+## 2026-11-14 02:00 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "Listo ahora haremos otro cambio, quiero que cuando quiero seguir gente me aparezca todos los usuarios registrados, por el momento solo estan porque los debo de buscar, pero si no me sé el usuario y quiero seguir a más gente qué, que me porpones de donde bedo ponerlo?"
+- **Summary:** Proposed three places for a user discovery list: a new "People" page with a header link (recommended), a "Who to follow" block on Home, or a section inside the Following page. Asked which option to build and whether already followed users should appear in the list.
+- **Files created or modified:** bitacora.md
+
+## 2026-11-14 02:05 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "me gusta la opción A y la opción C, seria agregar acá la parte de descubrir no?, o si queda mejor aprte?" (with a screenshot of the Following page)
+- **Summary:** Recommended a separate Discover page (/discover) with a sidebar link instead of a tab on the Following page, because that page depends on the profile being viewed. Described the planned page (all users except the current one, alphabetical, paginated, search box, Follow button) and asked which layout to build and whether followed users should be listed.
+- **Files created or modified:** bitacora.md
+
+## 2026-11-14 02:10 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "Lsito, entonces otra, continuemos"
+- **Summary:** The message did not say which option to build for the Discover feature or whether a new change was meant. Asked the student to confirm the layout (separate page or tab) and whether followed users should be listed, or to describe the next change.
+- **Files created or modified:** bitacora.md
+
+## 2026-11-14 02:15 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "1. Seguimos con Descubrir ... ¿Página aparte con enlace en el menú (mi recomendación) o pestaña "Descubrir" solo en tu perfil? tu recomendacion ... 3. no el cambio es descubrir"
+- **Summary:** The student chose the separate Discover page with a sidebar link. Asked one last question before building: whether the page lists only users not followed yet or all users with a "Following" state.
+- **Files created or modified:** bitacora.md
+
+## 2026-11-14 02:20 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "A. Solo los que aún no sigues (mi recomendación) ... y además agregar la función de dejar de seguir en el apartado de seguir"
+- **Summary:** Built the Discover page (/discover) with a sidebar link: users not followed yet, alphabetical, paginated, with a search box and a Follow button. Added unfollow: a "Siguiendo" button that shows "Dejar de seguir" on hover, in Following, Followers and Discover lists, with deleteFollow in the mock and Firebase sources and a delete rule for follows. Tested in mock mode with a real browser and lint.
+- **Files created or modified:** src/users/services/followService.js, src/users/services/followServiceMock.js, src/users/services/followServiceFirebase.js, src/users/utils/applyFollowChanges.js, src/users/components/UnfollowButton.jsx, src/users/components/UserListItem.jsx, src/users/components/UserConnections.jsx, src/users/components/DiscoverUsers.jsx, src/users/components/discoverUsers.css, src/users/pages/DiscoverPage.jsx, src/users/users.css, src/routes/AppRouter.jsx, src/ui/components/Header.jsx, firestore.rules
+
+## 2026-11-14 02:25 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** Terminal output of `npm run lint` with "'currentFollows' is not defined" in src/users/services/userServiceMock.js (lines 42 and 46).
+- **Summary:** Explained that `currentFollows` only exists in followServiceMock.js, so the new deleteFollow function was most likely pasted into userServiceMock.js. Gave the steps to check it, remove it from the wrong file, confirm it is in followServiceMock.js and run the lint again.
+- **Files created or modified:** src/users/services/userServiceMock.js, bitacora.md
+
+## 2026-11-14 02:30 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** Contents of src/users/services/userServiceMock.js with deleteFollow at the end, plus the lint output with "'currentFollows' is not defined".
+- **Summary:** Confirmed that deleteFollow had been pasted into userServiceMock.js, where currentFollows does not exist. Delivered the full corrected userServiceMock.js (without deleteFollow) and followServiceMock.js (with deleteFollow), and a command to check where deleteFollow lives.
+- **Files created or modified:** src/users/services/userServiceMock.js, src/users/services/followServiceMock.js, bitacora.md
+
+## 2026-11-14 02:35 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "si dio, ahora a subir los cmabios"
+- **Summary:** Confirmed the lint passes after the fix. Gave the steps to publish the Discover and unfollow changes on the same branch (commands to check state, two code commits, the log commit and push), the reminder to publish the Firestore rules, and the lines to add to the pull request description and test steps.
+- **Files created or modified:** bitacora.md
+
+## 2026-11-14 02:40 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** Terminal output of git restore, git status, and the two commits (the second one reported nothing to commit).
+- **Summary:** The code commit was created correctly (13 files). Found that firestore.rules had not been modified, so the delete rule for follows was missing, and gave the block and the commands to apply and commit it. Recommended ignoring the untracked .firebase/ hosting cache folder and gave the steps for the log commit and push.
+- **Files created or modified:** firestore.rules, .gitignore, bitacora.md
+
+## 2026-11-14 02:45 (COT)
+- **Member:** Susana Sánchez Jaramillo (@Susa31)
+- **Tool / model:** Claude (claude.ai) – Claude Sonnet 5.5
+- **Conversation link:** <https://claude.ai/share/745db1e8-ec97-4383-b1d2-fc04930aa1c6>
+- **Student message:** "pasame las nuevas bitacoras"
+- **Summary:** Compiled the log entries written since the previous list (from the earlier-days search and the pull request template through the Discover and unfollow work and the push steps).
+- **Files created or modified:** bitacora.md

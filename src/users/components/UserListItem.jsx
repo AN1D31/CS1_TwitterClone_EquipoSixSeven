@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 import { UserAvatar } from './UserAvatar'
 import { FollowButton } from './FollowButton'
+import { UnfollowButton } from './UnfollowButton'
 
-export const UserListItem = ({ user, currentUserId, isFollowed, onFollowed }) => {
-	const canFollow = Boolean(currentUserId) && user.id !== currentUserId && !isFollowed
+export const UserListItem = ({ user, currentUserId, isFollowed, onFollowed, onUnfollowed }) => {
+	const canChangeFollow = Boolean(currentUserId) && user.id !== currentUserId
 
 	return (
 		<li className="user-item">
@@ -14,8 +15,16 @@ export const UserListItem = ({ user, currentUserId, isFollowed, onFollowed }) =>
 					<span>@{user.username}</span>
 				</div>
 			</Link>
-			{canFollow && <FollowButton followerId={currentUserId} targetUserId={user.id} onFollowed={onFollowed} />}
-			{isFollowed && <span className="user-badge">Siguiendo</span>}
+			{canChangeFollow && !isFollowed && (
+				<FollowButton followerId={currentUserId} targetUserId={user.id} onFollowed={onFollowed} />
+			)}
+			{canChangeFollow && isFollowed && (
+				<UnfollowButton
+					followerId={currentUserId}
+					targetUserId={user.id}
+					onUnfollowed={onUnfollowed}
+				/>
+			)}
 		</li>
 	)
 }

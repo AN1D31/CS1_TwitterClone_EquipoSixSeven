@@ -1,0 +1,27 @@
+/* Search box of the Discover page. Colors come from the users feature variables. */
+
+.discover-search {
+	padding: 12px 16px;
+	border-bottom: 1px solid var(--users-line);
+}
+
+.discover-search__input {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 12px 16px;
+	border: 1px solid transparent;
+	border-radius: 999px;
+	outline: none;
+	background: #202327;
+	color: var(--users-text);
+	font: inherit;
+}
+
+.discover-search__input::placeholder {
+	color: var(--users-muted);
+}
+
+.discover-search__input:focus {
+	border-color: var(--users-accent);
+	background: var(--users-bg);
+}

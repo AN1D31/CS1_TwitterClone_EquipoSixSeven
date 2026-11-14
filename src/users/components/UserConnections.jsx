@@ -5,6 +5,7 @@ import { usePagination } from '../../ui/hooks/usePagination'
 import { useAuth } from '../../auth/hooks/useAuth'
 import { getUserByUsername } from '../services/userService'
 import { normalizeUsername } from '../utils/normalizeUsername'
+import { applyFollowChanges } from '../utils/applyFollowChanges'
 import { getFollowersByUserId, getFollowingByUserId, getFollowingIdsByUserId } from '../services/followService'
 import { BackHeader } from './BackHeader'
 import { Pagination } from '../../ui/components/Pagination'
@@ -19,7 +20,6 @@ const emptyMessages = {
 	following: 'Este usuario todavía no sigue a nadie.',
 }
 
-// Without a logged user there is nobody to follow from, so the followed list is empty.
 const loadViewerFollowingIds = (viewerId) => (viewerId ? getFollowingIdsByUserId(viewerId) : Promise.resolve([]))
 
 const loadConnections = async (username, type, viewerId) => {
@@ -43,13 +43,12 @@ const ConnectionTabs = ({ username }) => (
 	</nav>
 )
 
-// Followers or following list of a user: alphabetical by full name, 10 per page.
 export const UserConnections = ({ username, type }) => {
 	const { currentUser } = useAuth()
 	const viewerId = currentUser?.id ?? null
 	const loadUserConnections = useCallback(() => loadConnections(username, type, viewerId), [username, type, viewerId])
 	const { result: connections, isLoading, error } = useAsyncData(loadUserConnections)
-	const [newlyFollowedIds, setNewlyFollowedIds] = useState([])
+	const [followChanges, setFollowChanges] = useState({})
 	const { page, totalPages, pageItems, totalItems, goToPage } = usePagination(connections?.users)
 
 	if (isLoading) return <Loader />
@@ -57,8 +56,9 @@ export const UserConnections = ({ username, type }) => {
 	if (!connections?.profileUser) return <StatusMessage type="error">No existe el usuario @{username}.</StatusMessage>
 
 	const { profileUser, viewerFollowingIds } = connections
-	const followedIds = new Set([...viewerFollowingIds, ...newlyFollowedIds])
-	const handleFollowed = (userId) => setNewlyFollowedIds((previousIds) => [...previousIds, userId])
+	const followedIds = applyFollowChanges(viewerFollowingIds, followChanges)
+	const handleFollowed = (userId) => setFollowChanges((previous) => ({ ...previous, [userId]: true }))
+	const handleUnfollowed = (userId) => setFollowChanges((previous) => ({ ...previous, [userId]: false }))
 
 	return (
 		<div className="users-feature">
@@ -73,6 +73,7 @@ export const UserConnections = ({ username, type }) => {
 						currentUserId={viewerId}
 						isFollowed={followedIds.has(user.id)}
 						onFollowed={handleFollowed}
+						onUnfollowed={handleUnfollowed}
 					/>
 				))}
 			</ul>
