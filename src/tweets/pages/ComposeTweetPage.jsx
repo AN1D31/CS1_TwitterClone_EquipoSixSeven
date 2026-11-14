@@ -5,11 +5,17 @@ import { useToast } from '../../ui/hooks/useToast'
 import { createTweet, MAX_TWEET_LENGTH } from '../services/tweetService'
 import { UserAvatar } from '../../users/components/UserAvatar'
 import { TweetCharacterCounter } from '../components/TweetCharacterCounter'
+import { MAX_IMAGE_SIZE_MB, MAX_VIDEO_SIZE_MB } from '../../cloudinary/mediaUploadService'
+import { TweetMediaPicker } from '../components/TweetMediaPicker'
 import './composeTweetPage.css'
 
 const publishErrorMessages = {
 	'tweet/empty-body': 'Escribe algo antes de publicar.',
 	'tweet/body-too-long': `El tweet no puede superar los ${MAX_TWEET_LENGTH} caracteres.`,
+	'media/unsupported-type': 'Solo puedes adjuntar imágenes o videos.',
+	'media/file-too-large': `El archivo es muy pesado. Máximo ${MAX_IMAGE_SIZE_MB} MB en imágenes y ${MAX_VIDEO_SIZE_MB} MB en videos.`,
+	'media/upload-failed': 'No se pudo subir el archivo. Intenta de nuevo.',
+	'media/not-configured': 'La subida de archivos no está configurada todavía.',
 }
 
 const getPublishErrorMessage = (publishError) => {
@@ -21,6 +27,7 @@ export const ComposeTweetPage = () => {
 	const { currentUser } = useAuth()
 	const { showToast } = useToast()
 	const [tweetBody, setTweetBody] = useState('')
+	const [mediaFile, setMediaFile] = useState(null)
 	const [isPublishing, setIsPublishing] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
 
@@ -37,7 +44,7 @@ export const ComposeTweetPage = () => {
 		event.preventDefault()
 		setIsPublishing(true)
 		try {
-			await createTweet(currentUser.id, tweetBody)
+			await createTweet(currentUser.id, tweetBody, mediaFile)
 			showToast('Tu tweet fue publicado.')
 			navigate(`/users/${currentUser.username}`)
 		} catch (publishError) {
@@ -72,6 +79,11 @@ export const ComposeTweetPage = () => {
 						aria-describedby="tweet-character-counter"
 						aria-invalid={isBodyTooLong}
 						autoFocus
+					/>
+					<TweetMediaPicker
+						mediaFile={mediaFile}
+						onMediaChange={setMediaFile}
+						disabled={isPublishing}
 					/>
 					{errorMessage && (
 						<p className="compose-form__error" role="alert">
