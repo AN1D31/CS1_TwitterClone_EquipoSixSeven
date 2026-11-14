@@ -65,3 +65,46 @@
 	opacity: 0.5;
 	cursor: not-allowed;
 }
+
+.tweet-action--delete {
+	margin-left: auto;
+}
+
+.tweet-action__button--delete:hover:not(:disabled) {
+	background: rgba(244, 33, 46, 0.1);
+	color: #f4212e;
+}
+
+.tweet-delete-confirm {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+}
+
+.tweet-delete-confirm__text {
+	color: var(--app-muted, #71767b);
+}
+
+.tweet-delete-confirm__button {
+	padding: 4px 12px;
+	border: 1px solid #536471;
+	border-radius: 999px;
+	background: none;
+	color: var(--app-text, #e7e9ea);
+	font: inherit;
+	font-size: 13px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.tweet-delete-confirm__button--danger {
+	border-color: #f4212e;
+	background: #f4212e;
+	color: #fff;
+}
+
+.tweet-delete-confirm__button:disabled {
+	opacity: 0.6;
+	cursor: wait;
+}

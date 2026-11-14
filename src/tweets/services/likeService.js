@@ -1,4 +1,5 @@
 import { USE_MOCKS } from '../../firebase/dataSourceMode'
+import { notifyDataChanged } from '../../ui/events/dataChangeEvents'
 import { getUsersByIds, sortUsersByFullNameAsc } from '../../users/services/userService'
 import * as likeServiceFirebase from './likeServiceFirebase'
 import * as likeServiceMock from './likeServiceMock'
@@ -19,9 +20,13 @@ export const likeTweet = async (tweetId, userId) => {
 		userId,
 		createdAt: new Date().toISOString(),
 	})
+	notifyDataChanged('likes')
 }
 
-export const unlikeTweet = (tweetId, userId) => likeDataSource.deleteLike(tweetId, userId)
+export const unlikeTweet = async (tweetId, userId) => {
+	await likeDataSource.deleteLike(tweetId, userId)
+	notifyDataChanged('likes')
+}
 
 export const getUsersWhoLikedTweet = async (tweetId) => {
 	const likes = await likeDataSource.findLikesByTweetId(tweetId)

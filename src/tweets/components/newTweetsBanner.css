@@ -1,0 +1,28 @@
+/* Banner that offers to load the tweets published while the page was open. */
+
+.new-tweets-banner {
+	position: sticky;
+	top: 0;
+	z-index: 5;
+	display: flex;
+	justify-content: center;
+	padding: 8px 16px;
+	border-bottom: 1px solid var(--app-line, #2f3336);
+	background: rgba(0, 0, 0, 0.85);
+}
+
+.new-tweets-banner__button {
+	padding: 8px 20px;
+	border: none;
+	border-radius: 999px;
+	background: var(--app-accent, #1d9bf0);
+	color: #fff;
+	font: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.new-tweets-banner__button:hover {
+	background: #1a8cd8;
+}

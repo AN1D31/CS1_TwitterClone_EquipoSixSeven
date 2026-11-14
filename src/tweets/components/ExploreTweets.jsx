@@ -1,14 +1,19 @@
 import { useCallback, useState } from 'react'
 import { useAuth } from '../../auth/hooks/useAuth'
+import { useDataVersion } from '../../ui/hooks/useDataVersion'
 import { usePagination } from '../../ui/hooks/usePagination'
 import { Pagination } from '../../ui/components/Pagination'
 import { useAsyncData } from '../../users/hooks/useAsyncData'
 import { FollowButton } from '../../users/components/FollowButton'
 import { Loader, StatusMessage } from '../../users/components/StatusMessage'
 import { getFollowingIdsByUserId } from '../../users/services/followService'
+import { useNewTweetsCount } from '../hooks/useNewTweetsCount'
 import { getExploreTweetsByUserId } from '../services/tweetService'
+import { NewTweetsBanner } from './NewTweetsBanner'
 import { TweetCard } from './TweetCard'
 import './exploreTweets.css'
+
+const WATCHED_KINDS = ['tweets', 'follows']
 
 const EMPTY_EXPLORE_MESSAGE = 'Todavía nadie más ha publicado tweets.'
 
@@ -22,10 +27,11 @@ const loadExploreData = async (userId) => {
 
 const ExploreTweetList = ({ tweets, initialFollowingIds, viewerId }) => {
 	const { page, totalPages, pageItems, goToPage } = usePagination(tweets)
-	const [followedIds, setFollowedIds] = useState(new Set(initialFollowingIds))
+	const [followedByClick, setFollowedByClick] = useState([])
+	const followedIds = new Set([...initialFollowingIds, ...followedByClick])
 
 	const handleFollowed = (userId) => {
-		setFollowedIds((previousIds) => new Set(previousIds).add(userId))
+		setFollowedByClick((previousIds) => [...previousIds, userId])
 	}
 
 	if (!tweets.length) return <StatusMessage>{EMPTY_EXPLORE_MESSAGE}</StatusMessage>
@@ -51,9 +57,12 @@ const ExploreTweetList = ({ tweets, initialFollowingIds, viewerId }) => {
 	)
 }
 
-export const ExploreTweets = () => {
-	const { currentUser } = useAuth()
-	const loadData = useCallback(() => loadExploreData(currentUser.id), [currentUser.id])
+const ExploreContent = ({ viewerId }) => {
+	const dataVersion = useDataVersion(WATCHED_KINDS)
+	const loadData = useCallback(
+		() => loadExploreData(viewerId, dataVersion),
+		[viewerId, dataVersion],
+	)
 	const { result: exploreData, isLoading, error } = useAsyncData(loadData)
 
 	if (isLoading) return <Loader />
@@ -64,7 +73,26 @@ export const ExploreTweets = () => {
 		<ExploreTweetList
 			tweets={exploreData.tweets}
 			initialFollowingIds={exploreData.followingIds}
-			viewerId={currentUser.id}
+			viewerId={viewerId}
 		/>
+	)
+}
+
+export const ExploreTweets = () => {
+	const { currentUser } = useAuth()
+	const [reloadCount, setReloadCount] = useState(0)
+	const shouldCountTweet = useCallback((tweet) => tweet.authorId !== currentUser.id, [currentUser.id])
+	const { newTweetCount, markNewTweetsAsSeen } = useNewTweetsCount(shouldCountTweet)
+
+	const handleShowNewTweets = () => {
+		markNewTweetsAsSeen()
+		setReloadCount((previousCount) => previousCount + 1)
+	}
+
+	return (
+		<>
+			<NewTweetsBanner count={newTweetCount} onShow={handleShowNewTweets} />
+			<ExploreContent key={reloadCount} viewerId={currentUser.id} />
+		</>
 	)
 }

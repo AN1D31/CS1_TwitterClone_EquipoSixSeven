@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../../auth/hooks/useAuth'
 import { Loader, StatusMessage } from '../../users/components/StatusMessage'
+import { useDataVersion } from '../../ui/hooks/useDataVersion'
 import { getCommentsByTweetId } from '../services/commentService'
 import { CommentForm } from './CommentForm'
 import { CommentItem } from './CommentItem'
 import './comments.css'
+
+const WATCHED_KINDS = ['comments']
 
 const EMPTY_COMMENTS_MESSAGE = 'Todavía no hay comentarios. ¡Sé el primero en comentar!'
 
@@ -12,7 +15,7 @@ export const CommentSection = ({ tweetId }) => {
 	const { currentUser } = useAuth()
 	const [comments, setComments] = useState(null)
 	const [error, setError] = useState(null)
-	const [reloadCount, setReloadCount] = useState(0)
+	const commentsVersion = useDataVersion(WATCHED_KINDS)
 
 	useEffect(() => {
 		let isActive = true
@@ -27,13 +30,11 @@ export const CommentSection = ({ tweetId }) => {
 		return () => {
 			isActive = false
 		}
-	}, [tweetId, reloadCount])
-
-	const handleCommentAdded = () => setReloadCount((currentCount) => currentCount + 1)
+	}, [tweetId, commentsVersion])
 
 	return (
 		<section className="comment-section" aria-label="Comentarios">
-			{currentUser && <CommentForm tweetId={tweetId} onCommentAdded={handleCommentAdded} />}
+			{currentUser && <CommentForm tweetId={tweetId} />}
 			<h2 className="comment-section__title">Comentarios ({comments?.length ?? 0})</h2>
 			{!comments && !error && <Loader />}
 			{error && (

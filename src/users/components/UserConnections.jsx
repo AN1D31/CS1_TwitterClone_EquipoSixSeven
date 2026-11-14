@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom'
 import { useAsyncData } from '../hooks/useAsyncData'
 import { usePagination } from '../../ui/hooks/usePagination'
 import { useAuth } from '../../auth/hooks/useAuth'
+import { ORIGIN_REMOTE } from '../../ui/events/dataChangeEvents'
+import { useDataVersion } from '../../ui/hooks/useDataVersion'
 import { getUserByUsername } from '../services/userService'
 import { normalizeUsername } from '../utils/normalizeUsername'
 import { applyFollowChanges } from '../utils/applyFollowChanges'
@@ -12,6 +14,9 @@ import { Pagination } from '../../ui/components/Pagination'
 import { Loader, StatusMessage } from './StatusMessage'
 import { UserListItem } from './UserListItem'
 import '../users.css'
+
+const WATCHED_KINDS = ['follows']
+const WATCHED_ORIGINS = [ORIGIN_REMOTE]
 
 const listLoaders = { followers: getFollowersByUserId, following: getFollowingByUserId }
 
@@ -46,7 +51,11 @@ const ConnectionTabs = ({ username }) => (
 export const UserConnections = ({ username, type }) => {
 	const { currentUser } = useAuth()
 	const viewerId = currentUser?.id ?? null
-	const loadUserConnections = useCallback(() => loadConnections(username, type, viewerId), [username, type, viewerId])
+	const dataVersion = useDataVersion(WATCHED_KINDS, WATCHED_ORIGINS)
+	const loadUserConnections = useCallback(
+		() => loadConnections(username, type, viewerId, dataVersion),
+		[username, type, viewerId, dataVersion],
+	)
 	const { result: connections, isLoading, error } = useAsyncData(loadUserConnections)
 	const [followChanges, setFollowChanges] = useState({})
 	const { page, totalPages, pageItems, totalItems, goToPage } = usePagination(connections?.users)

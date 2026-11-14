@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useDataVersion } from '../../ui/hooks/useDataVersion'
 import { getCommentCount } from '../services/commentService'
 import './tweetActions.css'
 
+const WATCHED_KINDS = ['comments']
+
 export const CommentButton = ({ tweetId }) => {
 	const [commentCount, setCommentCount] = useState(0)
+	const commentsVersion = useDataVersion(WATCHED_KINDS)
 
 	useEffect(() => {
 		let isActive = true
@@ -19,7 +23,7 @@ export const CommentButton = ({ tweetId }) => {
 		return () => {
 			isActive = false
 		}
-	}, [tweetId])
+	}, [tweetId, commentsVersion])
 
 	return (
 		<div className="tweet-action">

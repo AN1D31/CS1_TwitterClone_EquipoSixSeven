@@ -1,4 +1,5 @@
 import { USE_MOCKS } from '../../firebase/dataSourceMode'
+import { notifyDataChanged } from '../../ui/events/dataChangeEvents'
 import * as repostServiceFirebase from './repostServiceFirebase'
 import * as repostServiceMock from './repostServiceMock'
 
@@ -25,6 +26,10 @@ export const repostTweet = async (tweetId, userId) => {
 		userId,
 		createdAt: new Date().toISOString(),
 	})
+	notifyDataChanged('reposts')
 }
 
-export const undoRepost = (tweetId, userId) => repostDataSource.deleteRepost(tweetId, userId)
+export const undoRepost = async (tweetId, userId) => {
+	await repostDataSource.deleteRepost(tweetId, userId)
+	notifyDataChanged('reposts')
+}

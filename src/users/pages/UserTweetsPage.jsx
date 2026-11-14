@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 import { useAsyncData } from '../hooks/useAsyncData'
 import { useAuth } from '../../auth/hooks/useAuth'
+import { useDataVersion } from '../../ui/hooks/useDataVersion'
 import { getUserByUsername } from '../services/userService'
 import { normalizeUsername } from '../utils/normalizeUsername'
 import { getFollowCountsByUserId, isUserFollowing } from '../services/followService'
@@ -14,6 +15,8 @@ import { UserAvatar } from '../components/UserAvatar'
 import { UserTweetList } from '../components/UserTweetList'
 import { ChangeAvatarButton } from '../components/ChangeAvatarButton'
 import '../users.css'
+
+const WATCHED_KINDS = ['tweets', 'reposts', 'follows']
 
 const checkViewerFollows = (viewerId, profileUserId) =>
 	viewerId ? isUserFollowing(viewerId, profileUserId) : Promise.resolve(false)
@@ -103,9 +106,10 @@ const UserProfile = ({ username, tab }) => {
 	const { currentUser, login } = useAuth()
 	const viewerId = currentUser?.id ?? null
 	const [reloadCount, setReloadCount] = useState(0)
+	const dataVersion = useDataVersion(WATCHED_KINDS)
 	const loadUserProfile = useCallback(
-		() => loadProfile(username, viewerId, tab, reloadCount),
-		[username, viewerId, tab, reloadCount],
+		() => loadProfile(username, viewerId, tab, reloadCount, dataVersion),
+		[username, viewerId, tab, reloadCount, dataVersion],
 	)
 	const { result: profile, isLoading, error } = useAsyncData(loadUserProfile)
 

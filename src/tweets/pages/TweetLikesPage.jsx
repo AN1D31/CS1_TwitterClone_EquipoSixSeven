@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuth } from '../../auth/hooks/useAuth'
 import { useAsyncData } from '../../users/hooks/useAsyncData'
+import { useDataVersion } from '../../ui/hooks/useDataVersion'
 import { usePagination } from '../../ui/hooks/usePagination'
 import { Pagination } from '../../ui/components/Pagination'
 import { BackHeader } from '../../users/components/BackHeader'
@@ -11,12 +12,15 @@ import { getFollowingIdsByUserId } from '../../users/services/followService'
 import { getUsersWhoLikedTweet } from '../services/likeService'
 import '../../users/users.css'
 
+const WATCHED_KINDS = ['likes', 'follows']
+
 const EMPTY_LIKES_MESSAGE = 'A nadie le ha gustado este tweet todavía.'
 
 const loadViewerFollowingIds = (viewerId) => {
 	return viewerId ? getFollowingIdsByUserId(viewerId) : Promise.resolve([])
 }
 
+// dataVersion is not used inside: when it changes, the list loads again.
 const loadLikes = async (tweetId, viewerId) => {
 	const [users, viewerFollowingIds] = await Promise.all([
 		getUsersWhoLikedTweet(tweetId),
@@ -53,7 +57,11 @@ export const TweetLikesPage = () => {
 	const { tweetId } = useParams()
 	const { currentUser } = useAuth()
 	const viewerId = currentUser?.id ?? null
-	const loadTweetLikes = useCallback(() => loadLikes(tweetId, viewerId), [tweetId, viewerId])
+	const dataVersion = useDataVersion(WATCHED_KINDS)
+	const loadTweetLikes = useCallback(
+		() => loadLikes(tweetId, viewerId, dataVersion),
+		[tweetId, viewerId, dataVersion],
+	)
 	const { result: likes, isLoading, error } = useAsyncData(loadTweetLikes)
 
 	return (
