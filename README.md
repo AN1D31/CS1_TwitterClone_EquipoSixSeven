@@ -4,6 +4,14 @@ A clone of the social network X (formerly Twitter), built as a Single Page Appli
 
 Users can register, log in (with username and password or with Google), publish tweets, follow other users and see the tweets of the people they follow.
 
+## Live demo
+
+The app is deployed on Firebase Hosting and uses the real Firebase project (Authentication + Firestore):
+
+**https://twitterclone-160d7.web.app**
+
+Demo account: username `anatorres`, password `Clave1234`.
+
 ## Team
 
 | Name | GitHub | Main responsibilities |
