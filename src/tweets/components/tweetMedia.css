@@ -1,0 +1,67 @@
+.tweet-media {
+	display: block;
+	width: 100%;
+	max-height: 480px;
+	margin-top: 12px;
+	border: 1px solid var(--app-line);
+	border-radius: 16px;
+	background: #000;
+	object-fit: contain;
+}
+
+.tweet-media-picker {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 8px;
+}
+
+.tweet-media-picker__input {
+	display: none;
+}
+
+.tweet-media-picker__preview {
+	position: relative;
+	width: 100%;
+}
+
+.tweet-media-picker__preview .tweet-media {
+	margin-top: 0;
+}
+
+.tweet-media-picker__remove {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	padding: 4px 12px;
+	border: none;
+	border-radius: 999px;
+	background: rgba(0, 0, 0, 0.75);
+	color: #fff;
+	font: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.tweet-media-picker__button {
+	padding: 6px 14px;
+	border: 1px solid var(--app-line);
+	border-radius: 999px;
+	background: none;
+	color: var(--app-accent);
+	font: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.tweet-media-picker__button:hover:not(:disabled) {
+	background: rgba(29, 155, 240, 0.1);
+}
+
+.tweet-media-picker__button:disabled,
+.tweet-media-picker__remove:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}

@@ -1,3 +1,4 @@
+import { getMediaType, uploadMediaToCloudinary } from '../../cloudinary/mediaUploadService'
 import { USE_MOCKS } from '../../firebase/dataSourceMode'
 import { getFollowingIdsByUserId } from '../../users/services/followService'
 import { getUsersByIds } from '../../users/services/userService'
@@ -43,7 +44,15 @@ export const getFeedTweetsByUserId = async (userId) => {
 	return getSortedTweetsWithAuthorsByAuthorIds([userId, ...followingIds])
 }
 
-export const createTweet = async (authorId, body) => {
+const uploadTweetMediaIfProvided = async (mediaFile) => {
+	if (!mediaFile) {
+		return { mediaUrl: null, mediaType: null }
+	}
+	const mediaUrl = await uploadMediaToCloudinary(mediaFile)
+	return { mediaUrl, mediaType: getMediaType(mediaFile) }
+}
+
+export const createTweet = async (authorId, body, mediaFile = null) => {
 	const trimmedBody = body.trim()
 	if (trimmedBody.length === 0) {
 		throw new Error('tweet/empty-body')
@@ -51,11 +60,15 @@ export const createTweet = async (authorId, body) => {
 	if (trimmedBody.length > MAX_TWEET_LENGTH) {
 		throw new Error('tweet/body-too-long')
 	}
+	const { mediaUrl, mediaType } = await uploadTweetMediaIfProvided(mediaFile)
 	const savedTweet = await tweetDataSource.saveTweet({
 		authorId,
 		body: trimmedBody,
 		createdAt: new Date().toISOString(),
+		mediaUrl,
+		mediaType,
 	})
 	const [tweetWithAuthor] = await addAuthorToTweets([savedTweet])
 	return tweetWithAuthor
 }
+

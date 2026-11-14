@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { formatTweetDate } from '../utils/formatTweetDate'
+import { TweetMedia } from './TweetMedia'
 
 export const TweetCard = ({ tweet }) => {
 	return (
@@ -14,6 +15,7 @@ export const TweetCard = ({ tweet }) => {
 				</time>
 			</header>
 			<p className="tweet-card__body">{tweet.body}</p>
+			<TweetMedia mediaUrl={tweet.mediaUrl} mediaType={tweet.mediaType} />
 		</article>
 	)
 }
