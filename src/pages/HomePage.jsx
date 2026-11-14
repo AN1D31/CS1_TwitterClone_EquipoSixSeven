@@ -70,14 +70,14 @@ export const HomePage = () => {
 					</Link>
 				))}
 			</nav>
-			<h2 className="explore-title">Tweets de otras personas</h2>
-			<ExploreTweets />
-			<div className="home-page__compose">
+						<div className="home-page__compose">
 				<p className="home-page__compose-text">¿Qué está pasando?</p>
 				<Link to="/tweets/compose" className="home-page__tweet-link">
 					Tweet
 				</Link>
 			</div>
+			<h2 className="explore-title">Tweets de otras personas</h2>
+			<ExploreTweets />
 		</section>
 	)
 }
