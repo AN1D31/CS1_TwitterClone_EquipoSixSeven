@@ -1,0 +1,29 @@
+/* Styles for the feed page. Colors come from the .users-feature variables. */
+
+.feed-page__compose {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 16px;
+	border-bottom: 1px solid var(--users-line);
+}
+
+.feed-page__compose-text {
+	margin: 0;
+	color: var(--users-muted);
+	font-size: 20px;
+}
+
+.feed-page__compose-link {
+	padding: 8px 20px;
+	border-radius: 999px;
+	background: var(--users-accent);
+	color: #fff;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.feed-page__compose-link:hover {
+	opacity: 0.9;
+}
